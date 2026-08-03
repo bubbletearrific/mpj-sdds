@@ -369,23 +369,31 @@ function escapeHtml(value) {
 }
 
 function summary() {
-  const safeName = escapeHtml(state.summaryName.trim() || 'Player');
-  const slides = [
-    `<article class="story-card story-one"><span class="story-kicker">YOUR MOBILE PLAY STORY</span><p>Made for</p><h2>${safeName}</h2><div class="story-stat">2019</div><strong>Your play history starts here</strong></article>`,
-    `<article class="story-card story-two"><span class="story-kicker">YOUR GAMING SNAPSHOT</span><p>${safeName}, your most active year was</p><div class="story-stat">2024</div><strong>Everyday play adds up</strong></article>`,
-    `<article class="story-card story-three"><span class="story-kicker">THANKS FOR DONATING</span><div class="story-stat">347</div><strong>hours of play in your donated history</strong><p>Your data can help power independent research.</p></article>`,
+  const stories = [
+    { src: 'assets/story-1.png?v=2', title: 'Play story overview' },
+    { src: 'assets/story-2.png?v=2', title: 'Top games' },
+    { src: 'assets/story-3.png?v=2', title: 'Yearly play comparison' },
+    { src: 'assets/story-4.png?v=2', title: 'Play patterns' },
+    { src: 'assets/story-5.png?v=2', title: 'Play milestones' },
+    { src: 'assets/story-6.png?v=2', title: 'Highest recorded spend' },
   ];
+  const activeStory = stories[state.summarySlide];
   return chrome(`<section class="page personal-summary-page">
     <div class="summary-brand"><img src="assets/sdds-mark.png" alt=""/><strong>Smart Data<br/>Donation Service</strong></div>
     <p class="summary-copy">This summary was created from the data you donated. Together, donated gaming histories can help researchers understand how everyday play changes over time.</p>
-    <section class="story-carousel" aria-label="Personal gaming summary stories">
-      <div class="story-frame">${slides.map((slide, index) => `<div class="story-slide ${index === state.summarySlide ? 'is-active' : ''}" data-slide="${index}" ${index === state.summarySlide ? '' : 'hidden'}>${slide}</div>`).join('')}
-        <button class="story-arrow previous" data-action="carousel-prev" aria-label="Previous story">‹</button>
-        <button class="story-arrow next" data-action="carousel-next" aria-label="Next story">›</button>
+    <section class="story-carousel" aria-label="Six personal gaming summary stories">
+      <p class="swipe-hint">Swipe to explore your six story images</p>
+      <div class="story-frame" data-story-swipe>${stories.map((story, index) => `<figure class="story-slide ${index === state.summarySlide ? 'is-active' : ''}" data-slide="${index}" ${index === state.summarySlide ? '' : 'hidden'}><img src="${story.src}" alt="Story ${index + 1} of 6: ${story.title}" draggable="false"/></figure>`).join('')}
       </div>
-      <div class="story-dots" aria-label="Story position">${slides.map((_, index) => `<button class="story-dot ${index === state.summarySlide ? 'is-active' : ''}" data-action="carousel-slide" data-index="${index}" aria-label="Show story ${index + 1}" aria-current="${index === state.summarySlide ? 'true' : 'false'}"></button>`).join('')}</div>
+      <div class="story-navigation" aria-label="Story navigation">
+        <button class="story-nav-button" data-action="carousel-prev" aria-label="Previous story">‹</button>
+        <span class="story-count" aria-live="polite">${state.summarySlide + 1} / ${stories.length}</span>
+        <button class="story-nav-button" data-action="carousel-next" aria-label="Next story">›</button>
+      </div>
+      <div class="story-dots" aria-label="Choose a story">${stories.map((_, index) => `<button class="story-dot ${index === state.summarySlide ? 'is-active' : ''}" data-action="carousel-slide" data-index="${index}" aria-label="Show story ${index + 1}" aria-current="${index === state.summarySlide ? 'true' : 'false'}"></button>`).join('')}</div>
     </section>
-    <div class="summary-actions"><button class="secondary" data-action="toast" data-message="Story image download started">Download</button><button class="primary" data-action="toast" data-message="Instagram Story sharing opened">Share</button></div>
+    <div class="summary-actions"><a class="secondary story-download" href="${activeStory.src}" download="sdds-story-${state.summarySlide + 1}.png">Download</a><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share</button></div>
+    <p class="share-note">On mobile, choose Instagram Stories from your device’s share sheet.</p>
   </section>`);
 }
 
@@ -447,7 +455,7 @@ document.addEventListener('click', (event) => {
     return;
   }
   if (action === 'carousel-prev' || action === 'carousel-next') {
-    const totalSlides = 3;
+    const totalSlides = 6;
     const direction = action === 'carousel-next' ? 1 : -1;
     state.summarySlide = (state.summarySlide + direction + totalSlides) % totalSlides;
     render();
@@ -456,6 +464,10 @@ document.addEventListener('click', (event) => {
   if (action === 'carousel-slide') {
     state.summarySlide = Number(target.dataset.index);
     render();
+    return;
+  }
+  if (action === 'share-story') {
+    shareStory(target.dataset.storySrc, target.dataset.storyNumber);
     return;
   }
   if (action === 'sharing') {
@@ -485,6 +497,36 @@ document.addEventListener('input', (event) => {
     if (createButton) createButton.disabled = !state.summaryName.trim();
   }
 });
+
+let storySwipeStartX = null;
+
+document.addEventListener('pointerdown', (event) => {
+  if (event.target.closest('[data-story-swipe]')) storySwipeStartX = event.clientX;
+});
+
+document.addEventListener('pointerup', (event) => {
+  if (storySwipeStartX === null || !event.target.closest('[data-story-swipe]')) return;
+  const distance = event.clientX - storySwipeStartX;
+  storySwipeStartX = null;
+  if (Math.abs(distance) < 45) return;
+  state.summarySlide = (state.summarySlide + (distance < 0 ? 1 : -1) + 6) % 6;
+  render();
+});
+
+async function shareStory(src, number) {
+  try {
+    const response = await fetch(src);
+    const blob = await response.blob();
+    const file = new File([blob], `sdds-story-${number}.png`, { type: 'image/png' });
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: `My gaming story ${number} of 6` });
+      return;
+    }
+    showToast('Sharing is available from a supported mobile browser');
+  } catch (error) {
+    if (error?.name !== 'AbortError') showToast('Sharing is available from a supported mobile browser');
+  }
+}
 
 function showToast(message) {
   document.querySelector('.toast')?.remove();
