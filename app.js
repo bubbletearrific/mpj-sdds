@@ -1,4 +1,5 @@
 const app = document.querySelector('#app');
+const SUMMARY_STORY_COUNT = 7;
 
 const state = {
   screen: location.hash.slice(1) || 'instagram',
@@ -7,28 +8,29 @@ const state = {
   duration: '',
   infoIndex: 0,
   sharingNoticeOpen: false,
+  landingTrustOpen: false,
   summaryName: '',
   summarySlide: 0,
 };
 
-const routes = new Set(['instagram','landing','info','consent','prepare','signin','sharing','permissions','thanks','summary']);
+const routes = new Set(['instagram','bridge','landing','info','consent','prepare','signin','sharing','permissions','thanks','summary']);
 
 const infoSections = [
   {
     title: 'Background',
-    body: `<p>The University of York project supervisor, Dr David Zendle, invites you to take part in this research project.</p><p>Please read this information carefully. If anything is unclear or you would like more information, contact <a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a> before completing the consent form.</p>`,
+    body: `<p>The University of York, project supervisor: Dr David Zendle, would like to invite you to take part in the following research project.</p><p>The study is designed to create a comprehensive databank that can help researchers explore the impact of digital activities on wellbeing and personality. Our goal is to generate a dataset that links the online platform use of individuals with information about their attitudes, views, traits, wellbeing, and health.</p><p>Before agreeing to take part, please read this information sheet carefully and let us know if anything is unclear or you would like further information. If you have any questions or want to discuss any aspect of the study, please contact us (<a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>) before completing the consent form.</p>`,
   },
   {
     title: 'What is the purpose of the study?',
-    body: `<p>The study will create a databank that helps researchers explore links between digital activity, wellbeing, personality, attitudes, and health.</p><p>You will donate historical Google Play data, complete a questionnaire about yourself and your digital behaviour, and choose whether you may be contacted about future studies. The study takes about 15 minutes.</p>`,
+    body: `<p>The study is designed to create a comprehensive databank that can help researchers explore the impact of digital activities on wellbeing and personality. Our goal is to generate a dataset that links the online platform use of individuals with information about their attitudes, views, traits, wellbeing, and health.</p>`,
   },
   {
     title: 'What data will be shared?',
-    body: `<p>You will be asked to donate data from your own Google account:</p><ul><li>Google Play Apps List, including app names and installation dates</li><li>Google Play Games activity, such as achievements, leaderboards, and game statistics</li><li>Google Play Store purchases, including in-game purchases</li></ul><p>The study also collects questionnaire responses and demographic information. IP addresses are used only for operational auditing by the SDDS Technology team and are not shared with researchers.</p>`,
+    body: `<p>You will be asked to donate your historical Google Play data using our secure data donation platform.</p><p>Your Google Play data will contain:</p><ul><li><strong>Google Play Apps List:</strong> Information about apps you have installed from the Google Play Store. This usually includes the names of the apps and the dates you installed them.</li><li><strong>Google Play Games:</strong> Data related to your interactions with Google Play Games services, including achievements, leaderboard standings, and other game-related statistics.</li><li><strong>Google Play Store:</strong> A timestamped list of products that you have purchased from the Google Play Store, including in-game purchases.</li></ul><p>IP addresses will be collected for auditing purposes only. The SDDS Technology team will be the only group to have access to this data for standard operational IT purposes. At no point will IP addresses be shared with the researchers, or be incorporated into the dataset made available for researchers. We encourage you to read our terms of service and privacy policy before starting the study.</p><p>If you decide to donate data, this must be data from your own account and not anyone else's.</p>`,
   },
   {
     title: 'For how long will my data be shared?',
-    body: `<p>The supplied study information does not specify an overall data-retention or access period.</p><p>You can request withdrawal for up to two weeks after completing the study. After that, your data may have been anonymised and may no longer be removable.</p>`,
+    body: `<p>When donating through Google, you can choose one of three access periods:</p><ul><li><strong>One time:</strong> Share a single, static copy of your data.</li><li><strong>One time + 30 days:</strong> Share an initial copy and allow updated copies to be accessed for 30 days.</li><li><strong>One time + 180 days:</strong> Share an initial copy and allow updated copies to be accessed for 180 days.</li></ul><p>You can request withdrawal for up to two weeks after completing the study. After that, your data may have been anonymised and may no longer be removable.</p>`,
   },
   {
     title: 'How will my data be protected?',
@@ -40,15 +42,15 @@ const infoSections = [
   },
   {
     title: 'Do I have to take part?',
-    body: `<p>No. Participation is optional. If you take part, you will complete a consent form and can download this information sheet.</p><p>You can stop before completing the study by closing the screen. Closing the data donation platform after agreeing to share does not automatically withdraw your donation.</p>`,
+    body: `<p>No, participation is optional. If you do decide to take part, you will be given the option to download a copy of this information sheet. You will be asked to complete a participant consent form. If you change your mind at any point during the study, you will be able to withdraw your participation without having to provide a reason.</p><p>You can withdraw at any time before study completion by closing the screen. Please note that closing the data donation platform once agreeing to share your data will not withdraw your donation. If you would like to withdraw your data after completing these steps, please contact us (<a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>).</p>`,
   },
   {
     title: 'Can I change my mind?',
-    body: `<p>Yes. You can withdraw during the study without giving a reason. After completing it, contact <a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a> as soon as possible.</p><p>Withdrawal is available for up to two weeks. After that, your data may have been anonymised and may no longer be removable.</p>`,
+    body: `<p>You can withdraw at any time before study completion by closing the screen. Please note that closing the data donation platform once agreeing to share your data will not withdraw your donation. If you would like to withdraw your data after completing these steps, please contact us (<a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>) with your Google Account as soon as possible.</p><p>Until two weeks after study completion, you can contact us (<a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>) with your Google Account to withdraw your data. We plan to retain Google Accounts until they are no longer necessary (e.g. for linking responses between this study and follow-up studies). However, after two weeks, your data may have been anonymised. If this is the case, we will not be able to remove your responses.</p>`,
   },
   {
     title: 'Will you share my data with 3rd parties?',
-    body: `<p>Raw data will not be transferred to individual researchers or leave University of York control. Approved and ethically vetted researchers may analyse it inside a secure Trusted Research Environment under an “access, not sharing” approach.</p><p>Privacy-preserving aggregate datasets may be made more widely available. Where personal information could still be inferred, the data remains safeguarded and access requires ethical vetting.</p>`,
+    body: `<p>We are collecting the following type of <strong>personal data</strong> (namely, data that could identify who you are): <strong>Google Play history and demographic information</strong>. The personal data collected will <strong>only be accessible to the project team at the University of York</strong>. These data will be stored in our <strong>secure cloud</strong> that can only be accessed by the project team.</p><p>It is important to note that the data held by a company sometimes contains <strong>identifying details about you</strong>. As such, the data you choose to donate from Google Play may contain personal data. For example, your Google Play data could contain games you have played, achievements you have unlocked, gameplay statistics. In addition to using secure cloud storage, we employ processes to <strong>remove sensitive and identifying details whenever possible</strong> to add an additional layer of security to it. One example of how we do this is filtering your data to remove these (a process called <strong>'data minimisation'</strong>).</p><p>Your data will <strong>never be shared with third party researchers</strong>, but it may be accessed by such parties. The SDDS operates via an <strong>'access not sharing' philosophy</strong>. This means that we place sensitive or personal data within a secure system, and allow third parties to run approved analyses over this data. <strong>Raw data</strong> - which refers to the unprocessed data you provide to us - will <strong>never be transferred to individual researchers or leave the control of the University of York</strong>. They will be stored in a <strong>'Trusted Research Environment' (TRE)</strong>: a secure space with high levels of security, and accessed from there. This TRE may be hosted by the University of York or by another UK institution, but the <strong>University of York will always remain the data controller</strong>. The Smart Data Donation Service will assure its security prior to storing data within it. Data will be archived within the <strong>Smart Data Donation Service at the University of York</strong>, a UK data service.</p><p>However, our research group is committed to <strong>open research practices</strong>, and to creating a large database that many other researchers can access. This dataset will include <strong>donated data, demographic information and survey responses</strong>. In order to preserve privacy and anonymity, we will only allow research teams access to our data within <strong>secure research environments</strong>. These are secure physical or digital environments which can only be accessed by <strong>approved researchers</strong>. This means that researchers can only access the data within a secure location, <strong>will not be able to save the data onto a device, and cannot transfer the data outside of the environment</strong>. These researchers will also need to undergo <strong>ethical vetting</strong>. This will include an application process with a number of stringent screenings, including official approval from an ethics committee at the applicant's institution for their intended use of the data.</p><p>We will prepare <strong>privacy preserving aggregates</strong> of our data for wider access. For example, a dataset could be created containing the URLs for all videos that have been watched by everyone in the cohort, the overall distributions of YouTube watch times or watch frequencies. Where personal data can be inferred from these datasets, they will be treated as <strong>safeguarded data</strong> where researchers will undergo the same ethical vetting process, but <strong>other universities will be the data controllers</strong> for the data. When this type of data is shared, it can be accessed by other people who might use it for other research questions that are not known to us. <strong>Please only take part in the study if you agree with this.</strong></p><p>In the unlikely event that we find indications of a <strong>risk of harm to yourself or others</strong> in your data, we <strong>may be obliged to share this information with others</strong>. Please see our <strong>Unanticipated Findings Policy</strong> for more information.</p>`,
   },
   {
     title: 'Will you transfer my data internationally?',
@@ -64,7 +66,7 @@ const infoSections = [
   },
   {
     title: 'Questions or concerns',
-    body: `<p>Contact SDDS first at <a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>.</p><p>For questions to the chair of the Department of Psychology Ethics Committee, contact <a href="mailto:psyc529@york.ac.uk">psyc529@york.ac.uk</a>. If you remain dissatisfied, contact the University’s Acting Data Protection Officer at <a href="mailto:dataprotection@york.ac.uk">dataprotection@york.ac.uk</a>.</p>`,
+    body: `<p>If you have any questions about this participant information sheet or concerns about how your data is being processed, please contact SDDS (<a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a>) in the first instance. This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York. If you have any questions you would like to ask the chair of the ethics committee (currently Dr Angela de Bruin), please contact <a href="mailto:psyc529@york.ac.uk">psyc529@york.ac.uk</a>. If you are still dissatisfied, please contact the University's Acting Data Protection Officer at <a href="mailto:dataprotection@york.ac.uk">dataprotection@york.ac.uk</a>.</p><p><strong>Contact Details:</strong> Dr David Zendle Department of Psychology,<br/>The University of York, York, YO10 5DD<br/><strong>E-mail:</strong> <a href="mailto:contact@sdds.ac.uk">contact@sdds.ac.uk</a></p>`,
   },
 ];
 
@@ -91,7 +93,7 @@ function go(next, push = true) {
 }
 
 function back() {
-  go(state.history.pop() || 'landing', false);
+  go(state.history.pop() || 'bridge', false);
 }
 
 function chrome(content, host = 'donate.sdds.ac.uk') {
@@ -107,21 +109,66 @@ function chrome(content, host = 'donate.sdds.ac.uk') {
 }
 
 function instagram() {
-  return `<main class="instagram screen">
-    <header class="ig-top"><span class="ig-word">Instagram</span><span class="ig-icons">♡ ◇</span></header>
-    <div class="ig-author"><span class="avatar"><img src="assets/sdds-mark.png" alt="" /></span><span><strong>sddsuk</strong><small>Sponsored</small></span><span class="more">•••</span></div>
-    <section class="ad">
-      ${brand(true)}
-      <h1>Do you play <span>games</span><br/>on your phone?</h1>
-      <p class="ad-copy">Whether it is puzzles, strategy or a few minutes of casual play, your experience matters.<br/><br/>Your everyday play can help university research.</p>
-      <img class="phone-game" src="assets/phone-game.png" alt="Mobile game artwork" />
-      <div class="chips"><span class="chip">A few clicks for 5-min</span><span class="chip">Get your gaming summary</span></div>
-      <button class="primary" data-action="landing"><span>See what’s involved</span><span>→</span></button>
-    </section>
-    <button class="learn" data-action="landing"><span>Learn more</span><span>›</span></button>
-    <div class="ig-actions"><span>♡</span><span>○</span><span>⌁</span><span>▱</span></div>
-    <p class="caption"><strong>sddsuk</strong> Data donation for a better society. Your gaming history can support independent university research.</p>
+  const insights = [
+    ['Most exploratory year', '2024', 'orange'],
+    ['New games tried that year', '12', 'green'],
+    ['Games you returned to', '8', 'lavender'],
+  ];
+  return `<main class="friend-story-screen screen">
+    <article class="friend-story" aria-labelledby="friend-story-title">
+      <div class="friend-story-progress" aria-label="Story 7 of 7">${[1,2,3,4,5,6,7].map(index => `<i class="${index === 7 ? 'active' : ''}"></i>`).join('')}</div>
+      <header class="friend-story-header">
+        <div class="friend-profile"><img src="assets/friend-story-avatar.png" alt=""/><span><strong>kensmith</strong><small>3 min ago</small></span></div>
+        <div class="friend-sdds"><img src="assets/friend-story-sdds.png" alt=""/><strong>Smart Data<br/>Donation Service</strong></div>
+      </header>
+      <div class="friend-story-eyebrow">YOUR PLAY STYLE</div>
+      <h1 id="friend-story-title">The Explorer</h1>
+      <p class="friend-story-intro">You played a wide range of games and regularly tried something new.</p>
+      <section class="friend-story-hero" aria-label="42 games explored">
+        <div><strong>42</strong><span>games explored</span></div>
+        <img src="assets/friend-story-compass.svg" alt="Compass illustration"/>
+        <button class="friend-story-link" data-action="bridge"><img src="assets/friend-story-link.svg" alt=""/>Get summary here</button>
+      </section>
+      <h2>YOUR EXPLORER SNAPSHOT</h2>
+      <div class="friend-story-insights">${insights.map(([label,value,tone]) => `<div><strong>${label}</strong><span class="${tone}">${value}</span></div>`).join('')}</div>
+      <p class="friend-story-cta">Create your gaming summary &amp;<br/><span>support University of York research</span></p>
+      <footer class="friend-story-footer">
+        <div><img src="assets/friend-story-sdds.png" alt=""/><strong>Smart Data<br/>Donation Service</strong></div>
+        <span>https://sdds.ac.uk/abcd1324</span>
+      </footer>
+    </article>
   </main>`;
+}
+
+function bridge() {
+  return chrome(`<section class="bridge-page" aria-labelledby="bridge-title">
+    <header class="york-site-header">
+      <img src="assets/york-site-header.png" alt="University of York" />
+    </header>
+    <div class="bridge-content">
+      <h1 id="bridge-title">Discover your Google Play story and help gaming research</h1>
+      <div class="bridge-intro">
+        <p>Join a University of York research study by securely donating a copy of your Google Play data.</p>
+        <p>In return, you’ll receive a personalised gaming summary like the one your friend shared.</p>
+      </div>
+      <button class="bridge-primary" data-action="landing">
+        <span>Get started via SDDS <img src="assets/sdds-mark-bridge.png" alt="" /></span>
+        <img class="bridge-arrow" src="assets/arrow-right-white.svg" alt="" />
+      </button>
+      <button class="bridge-secondary" data-action="sample-summary">Preview a sample summary</button>
+      <div class="bridge-facts" aria-label="Study details">
+        <p><strong>This is a University of York research study.</strong></p>
+        <p class="bridge-time"><span>Est. completion time</span><strong>5-10 min</strong></p>
+        <p><strong>Participation is voluntary and involves donating a copy of Google Play data.</strong></p>
+        <p><strong>You will receive a gaming summary based on your donated data.</strong></p>
+      </div>
+      <section class="bridge-partner" aria-labelledby="bridge-partner-title">
+        <img src="assets/sdds-mark-bridge-footer.png" alt="" />
+        <p id="bridge-partner-title">In partnership with Smart Data Donation Service</p>
+        <strong>The Smart Data Donation Service (SDDS) is a secure platform that helps researchers collect donated personal data in a transparent and privacy conscious way.</strong>
+      </section>
+    </div>
+  </section>`, 'www.york.ac.uk');
 }
 
 function landing() {
@@ -135,6 +182,16 @@ function landing() {
       <div class="card"><span class="card-label">Am I eligible?</span><strong>Age 16-64<br/>Living in UK<br/>Plays Google Play Games</strong></div>
       <div class="card"><span class="card-label">Est. completion time</span><strong>5-10 min</strong></div>
       <div class="card"><span class="card-label">Researcher</span><strong>Dr David Zendle @ The University of York</strong></div>
+      <section class="card landing-trust-card ${state.landingTrustOpen ? 'is-open' : ''}">
+        <span class="card-label">Can I trust this service?</span>
+        <strong>Your data is securely handled by researchers at the University of York</strong>
+        <ul><li>Access is limited to authorised and ethically approved researchers</li><li>Research takes place inside a secure environment</li></ul>
+        <div id="landing-trust-details" class="landing-trust-details" ${state.landingTrustOpen ? '' : 'hidden'}>
+          <strong>What is Smart Data Donation Service (SDDS)</strong>
+          <ul><li>The Smart Data Donation Service (SDDS) is a secure platform that helps researchers collect donated personal data in a transparent and privacy conscious way.</li></ul>
+        </div>
+        <button class="landing-card-more" data-action="landing-trust-toggle" aria-expanded="${state.landingTrustOpen}" aria-controls="landing-trust-details">${state.landingTrustOpen ? 'See less' : 'More information'}</button>
+      </section>
       <div class="card"><span class="card-label">✓ Ethics</span><p>This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York.</p></div>
       <div class="card"><span class="card-label">Research updates</span><strong>You can choose whether to receive updates on the research findings.</strong></div>
     </div>
@@ -148,15 +205,25 @@ function info() {
     ${brand()}
     <div class="info-topline"><button class="back" data-action="back" aria-label="Back">←</button><button class="type-control" aria-label="Text size">Aa</button></div>
     <header class="info-intro"><h2>Participant Information</h2><p>Everything about the research study and how to share your data.</p></header>
-    <p class="info-context">Mobile games are played by many different kinds of people, but research does not always capture this diversity. Your donated data could help researchers build a more accurate picture of everyday mobile play.</p>
+    <div class="info-context">
+      <p>Mobile games are played by many different kinds of people, but research does not always capture this diversity.</p>
+      <p>By donating your gaming data, you could help researchers build a more accurate picture of everyday mobile play and <strong>create a comprehensive research dataset that explores how digital activities relate to people’s wellbeing, personality, attitudes, and health.</strong></p>
+    </div>
     <section class="study-process" aria-labelledby="process-title">
       <h3 id="process-title">Secure and easy way to donate your data for research</h3>
-      <div class="process-steps">
-        ${[['STEP 1','Consent'],['STEP 2','Authenticate via Google'],['STEP 3','Receive a summary']].map((step,index)=>`<div class="process-step"><small>${step[0]}</small><span>${step[1]}</span>${index < 2 ? '<b aria-hidden="true">→</b>' : ''}</div>`).join('')}
+      <ol class="process-steps">
+        ${['Consent','Authenticate via Google','Receive a summary'].map((label,index)=>`<li class="process-step"><span class="process-step-number">${index + 1}</span><strong>${label}</strong></li>`).join('')}
+      </ol>
+      <div class="security-explainer">
+        <h3>Learn how <span class="security-title-brand"><img src="assets/sdds-mark.png" alt=""/>Smart Data Donation Service</span> protects your data</h3>
+        <figure class="security-media"><img src="assets/security-video.png" alt="Illustration showing how Smart Data Donation Service protects donated data"/></figure>
       </div>
-      <h3>Learn about security</h3>
-      <div class="security-media"><img src="assets/security-video.png" alt="Illustration explaining secure mobile data donation"/></div>
     </section>
+    <aside class="info-trust-panel" aria-labelledby="info-trust-title">
+      <img src="assets/data-safe-icon.svg" alt=""/>
+      <strong id="info-trust-title">Your data is securely handled by researchers at the University of York</strong>
+      <ul><li>Access is limited to authorised and ethically approved researchers</li><li>Research takes place inside a secure environment</li></ul>
+    </aside>
     <div class="accordion" aria-label="Participant information topics">
       ${infoSections.map((section,index)=>{
         const open = state.infoIndex === index;
@@ -183,19 +250,15 @@ function info() {
 
 function consent() {
   const requiredChecks = [
-    'I have read and understood the information above.',
-    'If I asked any questions, I have had satisfactory answers to all of them. I will also tick this if I did not have any questions.',
-    'I understand that I am free to withdraw from the study at any time until study completion without having to give a reason.',
-    'I understand that if I would like to withdraw my data after completing the study, I can contact the study team at contact@sdds.ac.uk within two weeks. This may not be possible after my data has been anonymised.',
-    'If I have questions or concerns, or would like to have my data deleted after completing the study, I know I can contact SDDS at contact@sdds.ac.uk.',
-    'I am happy for my data to be accessed by others in a secure research environment.',
-    'I am happy for my de-identified data to be shared with others for research and/or teaching purposes.',
-    'I am happy for my data to be used in research outputs. I understand that I cannot be identified in these outputs.',
-    'I accept the terms and conditions of this study and agree to take part.',
+    'I have read and understood the participant information and have had the opportunity to ask questions.',
+    'I understand that taking part is voluntary and that I can stop at any time before completing the study, without giving a reason.',
+    'I understand that if I would like to <strong>withdraw my data after completing the study</strong>, I can contact the study team (contact@sdds.ac.uk) within two weeks of participating and they will delete all of my data from their systems. I understand that this may not be possible after two weeks if my data has been anonymised.',
+    'I agree to donate the Google Play data described above. I understand that approved researchers may access my data only within a secure research environment.',
+    'I understand that my data may be used for approved research and teaching, and that I will not be identifiable in research outputs.',
   ];
   const optionalChecks = [
-    'I want to be notified about research updates.',
-    'I am open to being contacted about future studies.',
+    'I want to be notified about research updates',
+    'I am open to be contacted about future studies',
   ];
   return chrome(`<section class="page consent-page">
     ${brand()}
@@ -293,8 +356,17 @@ function googleLogo() {
 function signin() {
   return chrome(`<section class="google">
     ${googleLogo()}
-    <div class="google-card"><h1>Sign in</h1><p>to continue to Smart Data Donation Service</p><input id="email" class="field" type="email" autocomplete="email" value="${state.email}" aria-label="Email or phone"/><button class="g-link">Forgot email?</button><p>Before using this app, you can review the SDDS privacy policy and terms of service.</p><div class="google-actions"><button class="g-link">Create account</button><button class="g-button" data-action="sharing">Next</button></div></div>
+    <div class="google-card"><img class="signin-sdds-logo" src="assets/sdds-mark.png" alt="Smart Data Donation Service"/><h1>Sign in</h1><p>to continue to Smart Data Donation Service</p><input id="email" class="field" type="email" autocomplete="email" value="${state.email}" aria-label="Email or phone"/><button class="g-link">Forgot email?</button><p>Before using this app, you can review the SDDS privacy policy and terms of service.</p><div class="google-actions"><button class="g-link">Create account</button><button class="g-button" data-action="sharing">Next</button></div></div>
   </section>`, 'accounts.google.com');
+}
+
+function googleAccessIcon(type) {
+  const icons = {
+    copy: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="12" height="14"/><path d="M16 17v4H4V9h4"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>',
+    renew: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6v5h-5M20 11a8 8 0 1 0-1.9 5.2"/></svg>',
+  };
+  return `<span class="sharing-icon">${icons[type]}</span>`;
 }
 
 function sharing() {
@@ -304,24 +376,24 @@ function sharing() {
     <div class="account sharing-account"><span class="account-dot"></span><span>${state.email}</span></div>
     <section class="sharing-section">
       <h2>You’re in control</h2>
-      <div class="sharing-point"><span class="sharing-icon">▣</span><div><strong>You choose what data, if any, to share</strong><p>Google will create a copy of the data that you choose.</p></div></div>
-      <div class="sharing-point"><span class="sharing-icon">□</span><div><strong>You choose how long access lasts</strong><p>Share access to your data only once, or share access to your data and any changes that you make for 30 or 180 days.</p></div></div>
-      <div class="sharing-point"><span class="sharing-icon">⟳</span><div><strong>You can renew or remove Smart Data Donation Service’s access to your data</strong><p>To make changes at any time, go to your <a href="#" data-action="noop">Google Account</a>.</p></div></div>
+      <div class="sharing-point">${googleAccessIcon('copy')}<div><strong>You choose what data, if any, to share</strong><p>Google will create a copy of the data that you choose</p></div></div>
+      <div class="sharing-point">${googleAccessIcon('calendar')}<div><strong>You choose how long access lasts</strong><p>Share access to your data only once, or share access to your data and any changes that you make for 30 or 180 days</p></div></div>
+      <div class="sharing-point">${googleAccessIcon('renew')}<div><strong>You can renew or remove Smart Data Donation Service’s access to your data</strong><p>To make changes at any time, go to your <a href="#" data-action="noop">Google Account</a>.</p></div></div>
     </section>
     <section class="sharing-section">
       <h2>How it works</h2>
-      <div class="sharing-point"><span class="sharing-icon">▣</span><div><strong>Share your data only once</strong><p>If you choose to share your data only once, Google will create a single, static copy of your data, and Smart Data Donation Service will be able to access and move this copy only one time.</p></div></div>
-      <div class="sharing-point"><span class="sharing-icon">□</span><div><strong>Share for 30 or 180 days</strong><p>If you choose to share your data for 30 or 180 days, Smart Data Donation Service will be able to regularly access updated copies of your data during the time period that you choose. Google will create those copies upon request, and Smart Data Donation Service will move those copies during that time period.</p></div></div>
+      <div class="sharing-point">${googleAccessIcon('copy')}<div><strong>Share your data only once</strong><p>If you choose to share your data only once, Google will create a single, static copy of your data, and Smart Data Donation Service will be able to access and move this copy only one time.</p></div></div>
+      <div class="sharing-point">${googleAccessIcon('calendar')}<div><strong>Share for 30 or 180 days</strong><p>If you choose to share your data for 30 or 180 days, Smart Data Donation Service will be able to regularly access updated copies of your data during the time period that you choose. Google will create those copies upon Smart Data Donation Service’s request, and Smart Data Donation Service will move those copies of your data during the time period that you choose.</p></div></div>
       <p>Google will send you an email before Smart Data Donation Service’s access expires. You’ll be able to renew their access if you want to. If you don’t renew their access, they’ll no longer be able to access or move copies of your data.</p>
       <p>As part of this process, Google will not delete any data from the Google services that you use.</p>
-      <p>Learn more about <a href="#" data-action="noop">sharing a copy of your data</a>.</p>
+      <p>Learn more about <a href="#" data-action="noop">sharing a copy of your data</a></p>
     </section>
     <div class="google-actions sharing-actions"><button class="g-link" data-action="prepare">Cancel</button><button class="g-button dark" data-action="sharing-notice">Next</button></div>
     ${state.sharingNoticeOpen ? `<div class="google-dialog-backdrop" role="presentation">
       <section class="google-dialog" role="dialog" aria-modal="true" aria-labelledby="important-title">
         <h2 id="important-title">Important</h2>
         <div class="warning-line"><span aria-hidden="true">⚠</span><strong>You’re about to make important choices about sharing your data</strong></div>
-        <p>Some of the data that you choose to share may be personal or sensitive. Review Smart Data Donation Service’s <a href="#" data-action="noop">privacy policy</a> so that you understand how your data will be used and protected, including things like whether your data may be sold to third parties. <a href="#" data-action="noop">Learn more about sharing your data</a>.</p>
+        <p>Some of the data that you choose to share may be personal or sensitive. Review Smart Data Donation Service’s <a href="#" data-action="noop">privacy policy</a> so that you understand how your data will be used and protected, including things like whether your data may be sold to third parties. <a href="#" data-action="noop">Learn more about sharing your data</a></p>
         <p><strong>Once Smart Data Donation Service has a copy of your data, Smart Data Donation Service will be responsible for managing and protecting that copy, not Google.</strong></p>
         <div class="google-dialog-actions"><button class="g-link" data-action="sharing-notice-close">Cancel</button><button class="g-button dark" data-action="permissions">I understand</button></div>
       </section>
@@ -335,10 +407,10 @@ function permissions() {
     <h1><span style="color:#1a73e8">Smart Data Donation Service</span> wants to access your Google Account</h1>
     <div class="account"><span class="account-dot"></span><span>${state.email}</span></div>
     <h3>This will allow Smart Data Donation Service to:</h3>
-    <ul class="permission-list"><li>Move a copy of your Google Play activity</li><li>Move a copy of your Google Play Store subscriptions</li><li>Move a copy of your Google Play Store purchases</li><li>Move a copy of your Google Play Store app installations</li></ul>
-    <h3>Select how long access can last</h3>
-    ${[['once','Only once','Share a single, static copy of your data.'],['30','30 days','Share your data and changes for 30 days.'],['180','180 days','Share your data and changes for 180 days.']].map(x=>`<label class="radio-card"><input type="radio" name="duration" value="${x[0]}" ${state.duration===x[0]?'checked':''}/><span><strong>${x[1]}</strong><small>${x[2]}</small></span></label>`).join('')}
-    <h3>Make sure that you trust Smart Data Donation Service</h3><p>Review the privacy policy and terms to understand how your data will be processed and protected.</p>
+    <ul class="permission-list"><li class="google-play-permission">Move a copy of your Google Play activity</li><li class="google-play-permission">Move a copy of your Google Play Store subscriptions</li><li class="google-play-permission">Move a copy of your Google Play Store purchases</li><li class="google-play-permission">Move a copy of your Google Play Store app installations</li></ul>
+    <h3>Select how long Smart Data Donation Service can access your data</h3>
+    ${[['once','Only once','Share access to your data only one time. You’ll share a single, static copy of your data.'],['30','30 days','Share access to your data and any changes that you make to your data for 30 days'],['180','180 days','Share access to your data and any changes that you make to your data for 180 days']].map(x=>`<label class="radio-card"><input type="radio" name="duration" value="${x[0]}" ${state.duration===x[0]?'checked':''}/><span><strong>${x[1]}</strong><small>${x[2]}</small></span></label>`).join('')}
+    <section class="permission-trust"><h3>Make sure that you trust Smart Data Donation Service</h3><p>Review Smart Data Donation Service’s <a href="#" data-action="noop">privacy policy</a> and <a href="#" data-action="noop">Terms of Service</a> to understand how Smart Data Donation Service will process and protect your data.</p><p>To make changes at any time, go to your <a href="#" data-action="noop">Google Account</a>.</p><p>Learn how Google helps you <a href="#" data-action="noop">share data safely</a>.</p></section>
     <div class="google-actions"><button class="g-link" data-action="prepare">Cancel</button><button id="permissions-allow" class="g-button" data-action="thanks" ${state.duration ? '' : 'disabled'}>Allow</button></div>
   </section>`, 'accounts.google.com');
 }
@@ -376,14 +448,15 @@ function summary() {
     { src: 'assets/story-4.png?v=2', title: 'Play patterns' },
     { src: 'assets/story-5.png?v=2', title: 'Play milestones' },
     { src: 'assets/story-6.png?v=2', title: 'Highest recorded spend' },
+    { src: 'assets/story-7.png?v=1', title: 'Explorer play style' },
   ];
   const activeStory = stories[state.summarySlide];
   return chrome(`<section class="page personal-summary-page">
     <div class="summary-brand"><img src="assets/sdds-mark.png" alt=""/><strong>Smart Data<br/>Donation Service</strong></div>
     <p class="summary-copy">This summary was created from the data you donated. Together, donated gaming histories can help researchers understand how everyday play changes over time.</p>
-    <section class="story-carousel" aria-label="Six personal gaming summary stories">
-      <p class="swipe-hint">Swipe to explore your six story images</p>
-      <div class="story-frame" data-story-swipe>${stories.map((story, index) => `<figure class="story-slide ${index === state.summarySlide ? 'is-active' : ''}" data-slide="${index}" ${index === state.summarySlide ? '' : 'hidden'}><img src="${story.src}" alt="Story ${index + 1} of 6: ${story.title}" draggable="false"/></figure>`).join('')}
+    <section class="story-carousel" aria-label="${SUMMARY_STORY_COUNT} personal gaming summary stories">
+      <p class="swipe-hint">Swipe to explore your seven story images</p>
+      <div class="story-frame" data-story-swipe>${stories.map((story, index) => `<figure class="story-slide ${index === state.summarySlide ? 'is-active' : ''}" data-slide="${index}" ${index === state.summarySlide ? '' : 'hidden'}><img src="${story.src}" alt="Story ${index + 1} of ${SUMMARY_STORY_COUNT}: ${story.title}" draggable="false"/></figure>`).join('')}
       </div>
       <div class="story-navigation" aria-label="Story navigation">
         <button class="story-nav-button" data-action="carousel-prev" aria-label="Previous story">‹</button>
@@ -397,11 +470,11 @@ function summary() {
   </section>`);
 }
 
-const views = { instagram, landing, info, consent, prepare, signin, sharing, permissions, thanks, summary };
+const views = { instagram, bridge, landing, info, consent, prepare, signin, sharing, permissions, thanks, summary };
 
 function render() {
   app.innerHTML = views[state.screen]();
-  document.title = state.screen === 'instagram' ? 'Instagram | SDDS Study' : 'SDDS Data Donation';
+  document.title = state.screen === 'instagram' ? 'Instagram | SDDS Study' : state.screen === 'bridge' ? 'University of York | Gaming Research' : 'SDDS Data Donation';
 }
 
 document.addEventListener('click', (event) => {
@@ -440,6 +513,17 @@ document.addEventListener('click', (event) => {
     return;
   }
   if (action === 'toast') return showToast(target.dataset.message || (target.textContent.trim() === 'Share' ? 'Share sheet opened' : target.textContent.trim() === 'Download' ? 'Summary downloaded' : 'Invite link copied'));
+  if (action === 'sample-summary') {
+    state.summarySlide = 0;
+    go('summary');
+    return;
+  }
+  if (action === 'landing-trust-toggle') {
+    state.landingTrustOpen = !state.landingTrustOpen;
+    render();
+    requestAnimationFrame(() => document.querySelector('.landing-trust-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
+    return;
+  }
   if (action === 'noop') {
     event.preventDefault();
     return;
@@ -455,7 +539,7 @@ document.addEventListener('click', (event) => {
     return;
   }
   if (action === 'carousel-prev' || action === 'carousel-next') {
-    const totalSlides = 6;
+    const totalSlides = SUMMARY_STORY_COUNT;
     const direction = action === 'carousel-next' ? 1 : -1;
     state.summarySlide = (state.summarySlide + direction + totalSlides) % totalSlides;
     render();
@@ -509,7 +593,7 @@ document.addEventListener('pointerup', (event) => {
   const distance = event.clientX - storySwipeStartX;
   storySwipeStartX = null;
   if (Math.abs(distance) < 45) return;
-  state.summarySlide = (state.summarySlide + (distance < 0 ? 1 : -1) + 6) % 6;
+  state.summarySlide = (state.summarySlide + (distance < 0 ? 1 : -1) + SUMMARY_STORY_COUNT) % SUMMARY_STORY_COUNT;
   render();
 });
 
@@ -519,7 +603,7 @@ async function shareStory(src, number) {
     const blob = await response.blob();
     const file = new File([blob], `sdds-story-${number}.png`, { type: 'image/png' });
     if (navigator.share && navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ files: [file], title: `My gaming story ${number} of 6` });
+      await navigator.share({ files: [file], title: `My gaming story ${number} of ${SUMMARY_STORY_COUNT}` });
       return;
     }
     showToast('Sharing is available from a supported mobile browser');
