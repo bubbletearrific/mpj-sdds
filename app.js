@@ -459,13 +459,13 @@ function escapeHtml(value) {
 
 function summary() {
   const stories = [
-    { src: 'assets/story-1-v4-2x.png', title: 'Play story overview' },
-    { src: 'assets/story-2-v4-2x.png', title: 'Top games' },
-    { src: 'assets/story-3-v4-2x.png', title: 'Yearly play comparison' },
-    { src: 'assets/story-4-v4-2x.png', title: 'Play patterns' },
-    { src: 'assets/story-5-v4-2x.png', title: 'Play milestones' },
-    { src: 'assets/story-6-v4-2x.png', title: 'Highest recorded spend' },
-    { src: 'assets/story-7-v4-2x.png', title: 'Explorer play style' },
+    { src: 'assets/story-1-v4-see.png', title: 'Play story overview' },
+    { src: 'assets/story-2-v4-icons.png', title: 'Top games' },
+    { src: 'assets/story-3-v4-see.png', title: 'Yearly play comparison' },
+    { src: 'assets/story-4-v4-see.png', title: 'Play patterns' },
+    { src: 'assets/story-5-v4-see.png', title: 'Play milestones' },
+    { src: 'assets/story-6-v4-see.png', title: 'Highest recorded spend' },
+    { src: 'assets/story-7-v4-see.png', title: 'Explorer play style' },
   ];
   const activeStory = stories[state.summarySlide];
   return chrome(`<section class="page personal-summary-page">
