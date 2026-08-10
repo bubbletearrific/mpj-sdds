@@ -9,6 +9,7 @@ const state = {
   infoIndex: 0,
   sharingNoticeOpen: false,
   landingSecurityOpen: false,
+  landingEthicsOpen: false,
   summaryName: '',
   summarySlide: 0,
 };
@@ -30,7 +31,7 @@ const infoSections = [
   },
   {
     title: 'For how long will my data be shared?',
-    body: `<p>When donating through Google, you can choose one of three access periods:</p><ul><li><strong>One time:</strong> Share a single, static copy of your data.</li><li><strong>One time + 30 days:</strong> Share an initial copy and allow updated copies to be accessed for 30 days.</li><li><strong>One time + 180 days:</strong> Share an initial copy and allow updated copies to be accessed for 180 days.</li></ul><p>You can request withdrawal for up to two weeks after completing the study. After that, your data may have been anonymised and may no longer be removable.</p>`,
+    body: `<p>You can choose how often SDDS receives a copy of your Google Play data:</p><ul><li><strong>Once</strong><br/>SDDS receives one copy when you donate. It will not collect updates later.</li><li><strong>Once, with updates for 30 days</strong><br/>SDDS receives one copy when you donate and can receive updated copies during the next 30 days.</li><li><strong>Once, with updates for 180 days</strong><br/>SDDS receives one copy when you donate and can receive updated copies during the next 180 days.</li></ul><p>Your choice controls how long updated data can be collected from Google. It does not describe how long the research team may retain data already donated.</p><p><strong>Changing your mind</strong><br/>You can ask us to delete your donated data for at least two weeks after we first collect it. After this period, we may have removed the information linking the data to you. If this has happened, we will no longer be able to identify and delete your individual data.</p>`,
   },
   {
     title: 'How will my data be protected?',
@@ -109,48 +110,10 @@ function chrome(content, host = 'donate.sdds.ac.uk') {
 }
 
 function instagram() {
-  return `<main class="ig-joint-screen screen">
-    <article class="ig-joint-post" aria-labelledby="ig-joint-title">
-      <img class="ig-joint-shell" src="assets/instagram-joint-shell.png" alt="" />
-
-      <header class="ig-joint-author" aria-label="Joint Instagram advertisement by University of York and Smart Data Donation Service">
-        <div class="ig-joint-avatars" aria-hidden="true">
-          <img class="ig-york-avatar" src="assets/instagram-joint-york-avatar.png" alt="" />
-          <span class="ig-sdds-avatar"><img src="assets/instagram-joint-sdds.png" alt="" /></span>
-        </div>
-        <div class="ig-joint-names">
-          <strong>uniofyork</strong><img src="assets/instagram-verified.png" alt="Verified" />
-          <span>and</span>
-          <strong>sddsuk</strong><img src="assets/instagram-verified.png" alt="Verified" />
-          <small>Ad</small>
-        </div>
-        <button type="button" class="ig-follow" aria-label="Follow University of York and SDDS">Follow</button>
-        <span class="ig-more" aria-hidden="true">•••</span>
-      </header>
-
-      <section class="ig-joint-creative">
-        <img class="ig-ad-accent" src="assets/instagram-ad-accent.svg" alt="" />
-        <div class="ig-ad-brands" aria-label="University of York and Smart Data Donation Service">
-          <span class="ig-york-logo"><img src="assets/instagram-joint-york.png" alt="University of York" /></span>
-          <i aria-hidden="true"></i>
-          <span class="ig-sdds-logo"><img src="assets/instagram-joint-sdds.png" alt="" /><strong>Smart Data<br/>Donation Service</strong></span>
-        </div>
-        <span class="ig-study-badge">RESEARCH STUDY</span>
-        <h1 id="ig-joint-title">Do you play <span>games</span><br/>on your phone?</h1>
-        <div class="ig-ad-copy">
-          <p>Whether it is puzzles, strategy or a few minutes of casual play, your experience matters.</p>
-          <p>Your everyday play can help university research.</p>
-        </div>
-        <img class="ig-ad-phone" src="assets/instagram-joint-phone.png" alt="A hand holding a phone displaying a colourful mobile game" />
-        <div class="ig-ad-chips" aria-label="Study highlights">
-          <span>A few clicks for 5-min</span>
-          <span>Get your gaming summary</span>
-        </div>
-        <button type="button" class="ig-ad-primary" data-action="bridge"><span>See what’s involved</span><span aria-hidden="true">→</span></button>
-      </section>
-
-      <button type="button" class="ig-ad-learn" data-action="bridge"><span>Learn more</span><img src="assets/instagram-caret-right.svg" alt="" /></button>
-      <div class="ig-joint-caption"><strong>uniofyork</strong><span>Data Donation for a better society</span><em>more</em></div>
+  return `<main class="friend-story-screen screen">
+    <article class="friend-story" aria-label="Instagram Story shared by kensmith">
+      <img src="assets/friend-instagram-story-v5.png" alt="Kensmith’s Instagram Story showing their top games: Clash Royale, Monument Valley, Candy Crush, and Pokémon GO" />
+      <button type="button" class="friend-story-link" data-action="bridge" aria-label="Get your gaming summary here"></button>
     </article>
   </main>`;
 }
@@ -163,31 +126,35 @@ function bridge() {
     <div class="bridge-content">
       <h1 id="bridge-title">Help gaming research <span>&amp; discover your Google Play story</span></h1>
       <div class="bridge-intro">
-        <p>Join a University of York research study by securely donating a copy of your Google Play data.</p>
-        <p>In return, you’ll receive a personalised gaming summary like the one your friend shared.</p>
+        <p>Join a University of York research study by securely donating a copy of your Google Play data. The process will take 5-10 min.</p>
+        <p>In return, you’ll receive a personalised gaming summary. ✨</p>
       </div>
       <button class="bridge-primary" data-action="landing">
-        <span>Get started via SDDS <img src="assets/sdds-mark-bridge.png" alt="" /></span>
+        <span>Donate data &amp; get my summary</span>
         <img class="bridge-arrow" src="assets/arrow-right-white.svg" alt="" />
       </button>
-      <button class="bridge-secondary" data-action="sample-summary">Preview a sample summary</button>
+      <p class="bridge-redirect"><img src="assets/sdds-mark-bridge.png" alt="" /><span>You will be redirected to Smart Data Donation Service (SDDS)</span></p>
       <aside class="bridge-trust" aria-label="University of York research reassurance">
         <img src="assets/data-safe-icon.svg" alt="" />
-        <p><strong>This is a University of York research study.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
+        <p><strong>This is a University of York research study. Data donation is securely managed through SDDS, a University of York research service.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
       </aside>
+      <section class="bridge-preview" aria-labelledby="bridge-preview-title">
+        <h2 id="bridge-preview-title">You will receive a gaming summary based on your donated data.</h2>
+        <p>Get a personalised look at your gaming activity, including your favourite games and play patterns.</p>
+        <button type="button" data-action="sample-summary">Show examples</button>
+      </section>
       <section class="bridge-impact" aria-labelledby="bridge-impact-title">
         <h2 id="bridge-impact-title">How will my gaming data help research?</h2>
         <p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p>
       </section>
       <div class="bridge-facts" aria-label="Study details">
-        <p class="bridge-time"><span>Est. completion time</span><strong>5-10 min</strong></p>
         <p><strong>Participation is voluntary and involves donating a copy of Google Play data.</strong></p>
-        <p><strong>You will receive a gaming summary based on your donated data.</strong></p>
       </div>
       <section class="bridge-partner" aria-labelledby="bridge-partner-title">
         <img src="assets/sdds-mark-bridge-footer.png" alt="" />
-        <p id="bridge-partner-title">In partnership with Smart Data Donation Service</p>
-        <strong>The Smart Data Donation Service (SDDS) is a secure platform that helps researchers collect donated personal data in a transparent and privacy conscious way.</strong>
+        <p id="bridge-partner-title">In partnership with Smart Data Donation Service (SDDS)</p>
+        <strong>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.<br/>Your data is collected only with your consent, kept within the University of York’s secure research environment, and never sold or used for advertising.</strong>
+        <a href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a>
       </section>
     </div>
   </section>`, 'www.york.ac.uk');
@@ -201,7 +168,7 @@ function landing() {
       <p>Mobile games are played by many different kinds of people, but research does not always capture this diversity.</p>
       <p>By donating your gaming data, you could help researchers build a more accurate picture of everyday mobile play and <strong>create a comprehensive research dataset that explores how digital activities relate to people’s wellbeing, personality, attitudes, and health.</strong></p>
     </div>
-    <div class="cta-wrap"><button class="primary" data-action="info"><span>See what you will share</span><span>→</span></button></div>
+    <div class="cta-wrap"><button class="primary" data-action="info"><span>See how data donation works</span><span>→</span></button></div>
     <p class="personal-note">and get <span class="marker-highlight">your personal gaming summary</span>!</p>
     <section class="landing-security ${state.landingSecurityOpen ? 'is-open' : ''}" aria-labelledby="landing-security-title">
       <img src="assets/shield-check-outline.svg" alt="" />
@@ -209,16 +176,27 @@ function landing() {
       <ul class="landing-security-points"><li>Access is limited to authorised and ethically approved researchers</li><li>Research takes place inside a secure environment</li></ul>
       <div id="landing-security-details" class="landing-security-details" ${state.landingSecurityOpen ? '' : 'hidden'}>
         <strong>What is Smart Data Donation Service (SDDS)</strong>
-        <ul><li>The Smart Data Donation Service (SDDS) is a secure platform that helps researchers collect donated personal data in a transparent and privacy conscious way.</li></ul>
+        <ul>
+          <li>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.</li>
+          <li>Your data is collected only with your consent, kept within the University of York’s secure research environment, and never sold or used for advertising.</li>
+        </ul>
       </div>
-      <button class="landing-security-toggle" data-action="landing-security-toggle" aria-expanded="${state.landingSecurityOpen}" aria-controls="landing-security-details">${state.landingSecurityOpen ? 'See less' : 'More information'}</button>
+      <button class="landing-security-toggle" data-action="landing-security-toggle" aria-expanded="${state.landingSecurityOpen}" aria-controls="landing-security-details">${state.landingSecurityOpen ? 'See less' : 'Show details'}</button>
     </section>
     <div class="cards">
       <div class="card"><span class="card-label">Am I eligible?</span><strong>Age 16-64<br/>Living in UK<br/>Plays Google Play Games</strong></div>
       <div class="card"><span class="card-label">Est. completion time</span><strong>5-10 min</strong></div>
-      <div class="card"><span class="card-label">Researcher</span><strong>Dr David Zendle @ The University of York</strong></div>
+      <div class="card landing-researcher-card"><span class="card-label">Researcher</span><strong>Dr David Zendle @ The University of York</strong><a class="landing-card-link" href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a></div>
       <div class="card landing-impact-card"><strong>How will my gaming data help research?</strong><p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p></div>
-      <div class="card"><span class="card-label">✓ Ethics</span><p>This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York.</p></div>
+      <section class="card landing-ethics-card" aria-labelledby="landing-ethics-title">
+        <span class="card-label" id="landing-ethics-title">✓ Ethics</span>
+        <p>This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York.</p>
+        <div id="landing-ethics-details" class="landing-ethics-details" ${state.landingEthicsOpen ? '' : 'hidden'}>
+          <p>If you have any questions you would like to ask the chair of the ethics committee (currently Dr Angela de Bruin), please contact psyc529@york.ac.uk. If you are still dissatisfied, please contact the University's Acting Data Protection Officer at dataprotection@york.ac.uk.</p>
+          <p>Contact Details: Dr David Zendle Department of Psychology,<br/>The University of York, York, YO10 5DD<br/>E-mail: contact@sdds.ac.uk</p>
+        </div>
+        <button class="landing-ethics-toggle" data-action="landing-ethics-toggle" aria-expanded="${state.landingEthicsOpen}" aria-controls="landing-ethics-details">${state.landingEthicsOpen ? 'See less' : 'Show details'}</button>
+      </section>
       <div class="card"><span class="card-label">Research updates</span><strong>You can choose whether to receive updates on the research findings.</strong></div>
     </div>
     <div class="powered landing-powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
@@ -268,8 +246,8 @@ function info() {
 function consent() {
   const requiredChecks = [
     'I have read and understood the participant information and have had the opportunity to ask questions.',
-    'I understand that taking part is voluntary and that <strong>I can stop at any time before completing the study</strong>, without giving a reason.',
-    'I understand that if I would like to <strong>withdraw my data after completing the study</strong>, I can contact the study team (contact@sdds.ac.uk) within two weeks of participating and they will delete all of my data from their systems. I understand that this may not be possible after two weeks if my data has been anonymised.',
+    'I understand that taking part is voluntary and that <strong>I can stop at any time before completing data donation</strong>, without giving a reason.',
+    'I understand that if I would like to <strong>withdraw my data after completing donation</strong>, I can contact the study team (contact@sdds.ac.uk) within two weeks of participating and they will delete all of my data from their systems. I understand that this may not be possible after two weeks if my data has been anonymised.',
     'I agree to donate the Google Play data described above. I understand that <strong>approved researchers may access my data only within a secure research environment.</strong>',
     'I understand that my data may be used for approved research and teaching, and that <strong>I will not be identifiable in research outputs.</strong>',
   ];
@@ -290,7 +268,6 @@ function consent() {
         <p>Your Google Play data may contain:</p>
         <ul>
           <li><strong>Google Play Apps List:</strong> App names and installation dates.</li>
-          <li><strong>Google Play Movies &amp; TV:</strong> Movies or TV shows purchased or rented through Google Play.</li>
           <li><strong>Google Play Games:</strong> Achievements, leaderboards, and other game statistics.</li>
           <li><strong>Google Play Store:</strong> Timestamped purchases, including in-game purchases.</li>
         </ul>
@@ -514,6 +491,12 @@ document.addEventListener('click', (event) => {
     state.landingSecurityOpen = !state.landingSecurityOpen;
     render();
     requestAnimationFrame(() => document.querySelector('.landing-security-toggle')?.focus());
+    return;
+  }
+  if (action === 'landing-ethics-toggle') {
+    state.landingEthicsOpen = !state.landingEthicsOpen;
+    render();
+    requestAnimationFrame(() => document.querySelector('.landing-ethics-toggle')?.focus());
     return;
   }
   if (action === 'info-toggle') {
