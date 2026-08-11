@@ -8,7 +8,8 @@ const state = {
   duration: '',
   infoIndex: 0,
   sharingNoticeOpen: false,
-  landingSecurityOpen: false,
+  landingImpactOpen: false,
+  landingUpdatesOpen: false,
   landingEthicsOpen: false,
   summaryName: '',
   summarySlide: 0,
@@ -110,10 +111,47 @@ function chrome(content, host = 'donate.sdds.ac.uk') {
 }
 
 function instagram() {
-  return `<main class="friend-story-screen screen">
-    <article class="friend-story" aria-label="Instagram Story shared by kensmith">
-      <img src="assets/friend-instagram-story-v5.png" alt="Kensmith’s Instagram Story showing their top games: Clash Royale, Monument Valley, Candy Crush, and Pokémon GO" />
-      <button type="button" class="friend-story-link" data-action="bridge" aria-label="Get your gaming summary here"></button>
+  return `<main class="ig-joint-screen screen">
+    <article class="ig-joint-post" aria-labelledby="ig-joint-title">
+      <img class="ig-joint-shell" src="assets/instagram-joint-shell.png" alt="" />
+
+      <header class="ig-joint-author" aria-label="Joint Instagram advertisement by University of York and Smart Data Donation Service">
+        <div class="ig-joint-avatars" aria-hidden="true">
+          <img class="ig-york-avatar" src="assets/instagram-joint-york-avatar.png" alt="" />
+          <span class="ig-sdds-avatar"><img src="assets/instagram-joint-sdds.png" alt="" /></span>
+        </div>
+        <div class="ig-joint-names">
+          <strong>uniofyork</strong><img src="assets/instagram-verified.png" alt="Verified" />
+          <span>and</span>
+          <strong>sddsuk</strong><img src="assets/instagram-verified.png" alt="Verified" />
+          <small>Ad</small>
+        </div>
+        <button type="button" class="ig-follow" aria-label="Follow University of York and SDDS">Follow</button>
+        <span class="ig-more" aria-hidden="true">•••</span>
+      </header>
+
+      <section class="ig-joint-creative">
+        <img class="ig-ad-accent" src="assets/instagram-ad-accent.svg" alt="" />
+        <div class="ig-ad-brands" aria-label="University of York and Smart Data Donation Service">
+          <span class="ig-york-logo"><img src="assets/instagram-joint-york.png" alt="University of York" /></span>
+          <i aria-hidden="true"></i>
+          <span class="ig-sdds-logo"><img src="assets/instagram-joint-sdds.png" alt="" /><strong>Smart Data<br/>Donation Service</strong></span>
+        </div>
+        <span class="ig-study-badge">RESEARCH STUDY</span>
+        <h1 id="ig-joint-title">Do you play <span>games</span><br/>on your phone?</h1>
+        <div class="ig-ad-copy">
+          <p>Whether it is puzzles, strategy or a few minutes of casual play, your experience matters.</p>
+          <p>Your everyday play can help university research.</p>
+        </div>
+        <img class="ig-ad-phone" src="assets/instagram-joint-phone.png" alt="A hand holding a phone displaying a colourful mobile game" />
+        <div class="ig-ad-chips" aria-label="Study highlights">
+          <span>A few clicks for 5-min</span>
+          <span>Get your gaming summary: rankings, playtime, etc</span>
+        </div>
+      </section>
+
+      <button type="button" class="ig-ad-learn" data-action="bridge"><span>Learn more</span><img src="assets/instagram-caret-right.svg" alt="" /></button>
+      <div class="ig-joint-caption"><strong>uniofyork</strong><span>Data Donation for a better society</span><em>more</em></div>
     </article>
   </main>`;
 }
@@ -126,23 +164,25 @@ function bridge() {
     <div class="bridge-content">
       <h1 id="bridge-title">Help gaming research <span>&amp; discover your Google Play story</span></h1>
       <div class="bridge-intro">
-        <p>Join a University of York research study by securely donating a copy of your Google Play data. The process will take 5-10 min.</p>
+        <p>Join a University of York research study by securely donating a copy of your Google Play data. The process will take about 5 min.</p>
         <p>In return, you’ll receive a personalised gaming summary. ✨</p>
       </div>
+      <div class="bridge-summary-strip" role="group" aria-label="Sample gaming summary stories">
+        <img src="assets/story-1-v4-see.png" alt="Sample play story overview" />
+        <img src="assets/story-2-v4-icons.png" alt="Sample top games story" />
+        <img src="assets/story-4-v4-see.png" alt="Sample play patterns story" />
+        <img src="assets/story-7-v4-see.png" alt="Sample Explorer play style story" />
+      </div>
+      <button type="button" class="bridge-preview-button" data-action="sample-summary">Preview sample summary</button>
       <button class="bridge-primary" data-action="landing">
         <span>Donate data &amp; get my summary</span>
         <img class="bridge-arrow" src="assets/arrow-right-white.svg" alt="" />
       </button>
-      <p class="bridge-redirect"><img src="assets/sdds-mark-bridge.png" alt="" /><span>You will be redirected to Smart Data Donation Service (SDDS)</span></p>
+      <p class="bridge-redirect"><img src="assets/sdds-mark-bridge.png" alt="" /><span>You will be redirected to Smart Data Donation Service (SDDS) to complete the process</span></p>
       <aside class="bridge-trust" aria-label="University of York research reassurance">
         <img src="assets/data-safe-icon.svg" alt="" />
-        <p><strong>This is a University of York research study. Data donation is securely managed through SDDS, a University of York research service.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
+        <p><strong>This is a University of York research study. Data donation is securely managed through SDDS, a research service run by the University of York.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
       </aside>
-      <section class="bridge-preview" aria-labelledby="bridge-preview-title">
-        <h2 id="bridge-preview-title">You will receive a gaming summary based on your donated data.</h2>
-        <p>Get a personalised look at your gaming activity, including your favourite games and play patterns.</p>
-        <button type="button" data-action="sample-summary">Show examples</button>
-      </section>
       <section class="bridge-impact" aria-labelledby="bridge-impact-title">
         <h2 id="bridge-impact-title">How will my gaming data help research?</h2>
         <p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p>
@@ -170,34 +210,30 @@ function landing() {
     </div>
     <div class="cta-wrap"><button class="primary" data-action="info"><span>See how data donation works</span><span>→</span></button></div>
     <p class="personal-note">and get <span class="marker-highlight">your personal gaming summary</span>!</p>
-    <section class="landing-security ${state.landingSecurityOpen ? 'is-open' : ''}" aria-labelledby="landing-security-title">
-      <img src="assets/shield-check-outline.svg" alt="" />
-      <strong id="landing-security-title">Your data is securely handled by researchers at the University of York</strong>
-      <ul class="landing-security-points"><li>Access is limited to authorised and ethically approved researchers</li><li>Research takes place inside a secure environment</li></ul>
-      <div id="landing-security-details" class="landing-security-details" ${state.landingSecurityOpen ? '' : 'hidden'}>
-        <strong>What is Smart Data Donation Service (SDDS)</strong>
-        <ul>
-          <li>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.</li>
-          <li>Your data is collected only with your consent, kept within the University of York’s secure research environment, and never sold or used for advertising.</li>
-        </ul>
-      </div>
-      <button class="landing-security-toggle" data-action="landing-security-toggle" aria-expanded="${state.landingSecurityOpen}" aria-controls="landing-security-details">${state.landingSecurityOpen ? 'See less' : 'Show details'}</button>
-    </section>
+    <aside class="bridge-trust landing-trust" aria-label="University of York research reassurance">
+      <img src="assets/data-safe-icon.svg" alt="" />
+      <p><strong>This is a University of York research study. Data donation is securely managed through SDDS, a research service run by the University of York.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
+    </aside>
     <div class="cards">
-      <div class="card"><span class="card-label">Am I eligible?</span><strong>Age 16-64<br/>Living in UK<br/>Plays Google Play Games</strong></div>
-      <div class="card"><span class="card-label">Est. completion time</span><strong>5-10 min</strong></div>
+      <div class="card landing-time-card"><div><strong>Est. completion time</strong><span>5 min</span></div><p>Take your time if you want to review the details.</p></div>
+      <div class="card"><span class="card-label">Am I eligible?</span><ul class="landing-eligibility"><li>Age 16-64</li><li>Living in UK</li><li>Plays Google Play Games</li></ul></div>
       <div class="card landing-researcher-card"><span class="card-label">Researcher</span><strong>Dr David Zendle @ The University of York</strong><a class="landing-card-link" href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a></div>
-      <div class="card landing-impact-card"><strong>How will my gaming data help research?</strong><p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p></div>
-      <section class="card landing-ethics-card" aria-labelledby="landing-ethics-title">
-        <span class="card-label" id="landing-ethics-title">✓ Ethics</span>
-        <p>This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York.</p>
+      <section class="card landing-collapse-card ${state.landingImpactOpen ? 'is-open' : ''}" aria-labelledby="landing-impact-title">
+        <button class="landing-collapse-toggle" data-action="landing-impact-toggle" aria-expanded="${state.landingImpactOpen}" aria-controls="landing-impact-details"><strong id="landing-impact-title">How will my gaming data help research?</strong><span aria-hidden="true">⌄</span></button>
+        <div id="landing-impact-details" class="landing-collapse-details" ${state.landingImpactOpen ? '' : 'hidden'}><p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p></div>
+      </section>
+      <section class="card landing-collapse-card ${state.landingUpdatesOpen ? 'is-open' : ''}" aria-labelledby="landing-updates-title">
+        <button class="landing-collapse-toggle" data-action="landing-updates-toggle" aria-expanded="${state.landingUpdatesOpen}" aria-controls="landing-updates-details"><strong id="landing-updates-title">Receive research updates</strong><span aria-hidden="true">⌄</span></button>
+        <div id="landing-updates-details" class="landing-collapse-details" ${state.landingUpdatesOpen ? '' : 'hidden'}><p>You can choose whether to receive updates on the research findings.</p></div>
+      </section>
+      <section class="card landing-collapse-card landing-ethics-card ${state.landingEthicsOpen ? 'is-open' : ''}" aria-labelledby="landing-ethics-title">
+        <button class="landing-collapse-toggle" data-action="landing-ethics-toggle" aria-expanded="${state.landingEthicsOpen}" aria-controls="landing-ethics-details"><strong id="landing-ethics-title"><span aria-hidden="true">✓✓</span> Ethics approved</strong><span aria-hidden="true">⌄</span></button>
         <div id="landing-ethics-details" class="landing-ethics-details" ${state.landingEthicsOpen ? '' : 'hidden'}>
+          <p>This project received ethics approval from the Ethics Committee in the Department of Psychology at the University of York.</p>
           <p>If you have any questions you would like to ask the chair of the ethics committee (currently Dr Angela de Bruin), please contact psyc529@york.ac.uk. If you are still dissatisfied, please contact the University's Acting Data Protection Officer at dataprotection@york.ac.uk.</p>
           <p>Contact Details: Dr David Zendle Department of Psychology,<br/>The University of York, York, YO10 5DD<br/>E-mail: contact@sdds.ac.uk</p>
         </div>
-        <button class="landing-ethics-toggle" data-action="landing-ethics-toggle" aria-expanded="${state.landingEthicsOpen}" aria-controls="landing-ethics-details">${state.landingEthicsOpen ? 'See less' : 'Show details'}</button>
       </section>
-      <div class="card"><span class="card-label">Research updates</span><strong>You can choose whether to receive updates on the research findings.</strong></div>
     </div>
     <div class="powered landing-powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
     ${progress(1)}
@@ -487,16 +523,22 @@ document.addEventListener('click', (event) => {
   if (!target || target.disabled) return;
   const action = target.dataset.action;
   if (action === 'back' || action === 'browser-back') return back();
-  if (action === 'landing-security-toggle') {
-    state.landingSecurityOpen = !state.landingSecurityOpen;
+  if (action === 'landing-impact-toggle') {
+    state.landingImpactOpen = !state.landingImpactOpen;
     render();
-    requestAnimationFrame(() => document.querySelector('.landing-security-toggle')?.focus());
+    requestAnimationFrame(() => document.querySelector('.landing-collapse-toggle[data-action="landing-impact-toggle"]')?.focus());
+    return;
+  }
+  if (action === 'landing-updates-toggle') {
+    state.landingUpdatesOpen = !state.landingUpdatesOpen;
+    render();
+    requestAnimationFrame(() => document.querySelector('.landing-collapse-toggle[data-action="landing-updates-toggle"]')?.focus());
     return;
   }
   if (action === 'landing-ethics-toggle') {
     state.landingEthicsOpen = !state.landingEthicsOpen;
     render();
-    requestAnimationFrame(() => document.querySelector('.landing-ethics-toggle')?.focus());
+    requestAnimationFrame(() => document.querySelector('.landing-collapse-toggle[data-action="landing-ethics-toggle"]')?.focus());
     return;
   }
   if (action === 'info-toggle') {
