@@ -175,7 +175,7 @@ function bridge() {
       </div>
       <button type="button" class="bridge-preview-button" data-action="sample-summary">Preview sample summary</button>
       <button class="bridge-primary" data-action="landing">
-        <span>Donate data &amp; get my summary</span>
+        <span>Continue to data donation</span>
         <img class="bridge-arrow" src="assets/arrow-right-white.svg" alt="" />
       </button>
       <p class="bridge-redirect"><img src="assets/sdds-mark-bridge.png" alt="" /><span>You will be redirected to Smart Data Donation Service (SDDS) to complete the process</span></p>
@@ -208,7 +208,7 @@ function landing() {
       <p>Mobile games are played by many different kinds of people, but research does not always capture this diversity.</p>
       <p>By donating your gaming data, you could help researchers build a more accurate picture of everyday mobile play and <strong>create a comprehensive research dataset that explores how digital activities relate to people’s wellbeing, personality, attitudes, and health.</strong></p>
     </div>
-    <div class="cta-wrap"><button class="primary" data-action="info"><span>See how data donation works</span><span>→</span></button></div>
+    <div class="cta-wrap"><button class="primary" data-action="info"><span>Get started</span><span>→</span></button></div>
     <p class="personal-note">and get <span class="marker-highlight">your personal gaming summary</span>!</p>
     <aside class="bridge-trust landing-trust" aria-label="University of York research reassurance">
       <img src="assets/data-safe-icon.svg" alt="" />
