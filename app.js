@@ -15,7 +15,7 @@ const state = {
   summarySlide: 0,
 };
 
-const routes = new Set(['instagram','bridge','landing','info','consent','prepare','signin','sharing','permissions','thanks','summary']);
+const routes = new Set(['instagram','bridge','landing','info','consent','signin','sharing','permissions','thanks','summary']);
 
 const infoSections = [
   {
@@ -111,47 +111,10 @@ function chrome(content, host = 'donate.sdds.ac.uk') {
 }
 
 function instagram() {
-  return `<main class="ig-joint-screen screen">
-    <article class="ig-joint-post" aria-labelledby="ig-joint-title">
-      <img class="ig-joint-shell" src="assets/instagram-joint-shell.png" alt="" />
-
-      <header class="ig-joint-author" aria-label="Joint Instagram advertisement by University of York and Smart Data Donation Service">
-        <div class="ig-joint-avatars" aria-hidden="true">
-          <img class="ig-york-avatar" src="assets/instagram-joint-york-avatar.png" alt="" />
-          <span class="ig-sdds-avatar"><img src="assets/instagram-joint-sdds.png" alt="" /></span>
-        </div>
-        <div class="ig-joint-names">
-          <strong>uniofyork</strong><img src="assets/instagram-verified.png" alt="Verified" />
-          <span>and</span>
-          <strong>sddsuk</strong><img src="assets/instagram-verified.png" alt="Verified" />
-          <small>Ad</small>
-        </div>
-        <button type="button" class="ig-follow" aria-label="Follow University of York and SDDS">Follow</button>
-        <span class="ig-more" aria-hidden="true">•••</span>
-      </header>
-
-      <section class="ig-joint-creative">
-        <img class="ig-ad-accent" src="assets/instagram-ad-accent.svg" alt="" />
-        <div class="ig-ad-brands" aria-label="University of York and Smart Data Donation Service">
-          <span class="ig-york-logo"><img src="assets/instagram-joint-york.png" alt="University of York" /></span>
-          <i aria-hidden="true"></i>
-          <span class="ig-sdds-logo"><img src="assets/instagram-joint-sdds.png" alt="" /><strong>Smart Data<br/>Donation Service</strong></span>
-        </div>
-        <span class="ig-study-badge">RESEARCH STUDY</span>
-        <h1 id="ig-joint-title">Do you play <span>games</span><br/>on your phone?</h1>
-        <div class="ig-ad-copy">
-          <p>Whether it is puzzles, strategy or a few minutes of casual play, your experience matters.</p>
-          <p>Your everyday play can help university research.</p>
-        </div>
-        <img class="ig-ad-phone" src="assets/instagram-joint-phone.png" alt="A hand holding a phone displaying a colourful mobile game" />
-        <div class="ig-ad-chips" aria-label="Study highlights">
-          <span>A few clicks for 5-min</span>
-          <span>Get your gaming summary: rankings, playtime, etc</span>
-        </div>
-      </section>
-
-      <button type="button" class="ig-ad-learn" data-action="bridge"><span>Learn more</span><img src="assets/instagram-caret-right.svg" alt="" /></button>
-      <div class="ig-joint-caption"><strong>uniofyork</strong><span>Data Donation for a better society</span><em>more</em></div>
+  return `<main class="friend-story-screen screen">
+    <article class="friend-story" aria-label="Instagram Story shared by kensmith">
+      <img src="assets/friend-instagram-story-v5.png" alt="Kensmith’s Instagram Story showing their top games: Clash Royale, Monument Valley, Candy Crush, and Pokémon GO" />
+      <button type="button" class="friend-story-link" data-action="bridge" aria-label="Get your gaming summary here"></button>
     </article>
   </main>`;
 }
@@ -187,14 +150,16 @@ function bridge() {
         <h2 id="bridge-impact-title">How will my gaming data help research?</h2>
         <p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p>
       </section>
-      <div class="bridge-facts" aria-label="Study details">
-        <p><strong>Participation is voluntary and involves donating a copy of Google Play data.</strong></p>
-      </div>
       <section class="bridge-partner" aria-labelledby="bridge-partner-title">
-        <img src="assets/sdds-mark-bridge-footer.png" alt="" />
+        <img class="bridge-partner-mark" src="assets/sdds-mark-bridge-footer.png" alt="" />
         <p id="bridge-partner-title">In partnership with Smart Data Donation Service (SDDS)</p>
-        <strong>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.<br/>Your data is collected only with your consent, kept within the University of York’s secure research environment, and never sold or used for advertising.</strong>
+        <p>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.</p>
         <a href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a>
+        <div class="bridge-partner-logos" aria-label="Research funding partners">
+          <img src="assets/ukri-logo.png" alt="UK Research and Innovation" />
+          <img src="assets/esrc-logo.png" alt="Economic and Social Research Council" />
+          <span class="bridge-research-uk"><img src="assets/sdds-mark.png" alt="" /><strong>Smart Data<br/>Research UK</strong></span>
+        </div>
       </section>
     </div>
   </section>`, 'www.york.ac.uk');
@@ -208,6 +173,7 @@ function landing() {
       <p>Mobile games are played by many different kinds of people, but research does not always capture this diversity.</p>
       <p>By donating your gaming data, you could help researchers build a more accurate picture of everyday mobile play and <strong>create a comprehensive research dataset that explores how digital activities relate to people’s wellbeing, personality, attitudes, and health.</strong></p>
     </div>
+    <figure class="landing-impact-graphic"><img src="assets/research-impact-flow.svg" alt="You share your gaming data, researchers analyse patterns at scale, and we learn more about digital life"/></figure>
     <div class="cta-wrap"><button class="primary" data-action="info"><span>Get started</span><span>→</span></button></div>
     <p class="personal-note">and get <span class="marker-highlight">your personal gaming summary</span>!</p>
     <aside class="bridge-trust landing-trust" aria-label="University of York research reassurance">
@@ -218,6 +184,19 @@ function landing() {
       <div class="card landing-time-card"><div><strong>Est. completion time</strong><span>5 min</span></div><p>Take your time if you want to review the details.</p></div>
       <div class="card"><span class="card-label">Am I eligible?</span><ul class="landing-eligibility"><li>Age 16-64</li><li>Living in UK</li><li>Plays Google Play Games</li></ul></div>
       <div class="card landing-researcher-card"><span class="card-label">Researcher</span><strong>Dr David Zendle @ The University of York</strong><a class="landing-card-link" href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a></div>
+      <section class="card landing-process-card" aria-labelledby="landing-process-heading">
+        <h2 id="landing-process-heading">How does data donation work?</h2>
+        <div class="study-process">
+          <h3>Secure and easy way to donate your data for research</h3>
+          <ol class="process-steps">
+            ${['Consent','Authenticate via Google','Receive a summary'].map((label,index)=>`<li class="process-step"><span class="process-step-number">${index + 1}</span><strong>${label}${index === 1 ? '<img class="process-google-icon" src="assets/google-g.png" alt="Google" />' : ''}</strong></li>`).join('')}
+          </ol>
+          <div class="security-explainer">
+            <h3>Learn how <span class="security-title-brand"><img src="assets/sdds-mark.png" alt=""/>Smart Data Donation Service</span> protects your data</h3>
+            <figure class="security-media"><img src="assets/security-video.png" alt="Video preview explaining how Smart Data Donation Service protects donated data"/></figure>
+          </div>
+        </div>
+      </section>
       <section class="card landing-collapse-card ${state.landingImpactOpen ? 'is-open' : ''}" aria-labelledby="landing-impact-title">
         <button class="landing-collapse-toggle" data-action="landing-impact-toggle" aria-expanded="${state.landingImpactOpen}" aria-controls="landing-impact-details"><strong id="landing-impact-title">How will my gaming data help research?</strong><span aria-hidden="true">⌄</span></button>
         <div id="landing-impact-details" class="landing-collapse-details" ${state.landingImpactOpen ? '' : 'hidden'}><p>By contributing your Google Play history, you can help researchers explore how gaming habits and other digital activities relate to people’s interests, experiences, wellbeing, and health.</p></div>
@@ -235,7 +214,17 @@ function landing() {
         </div>
       </section>
     </div>
-    <div class="powered landing-powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
+    <section class="bridge-partner landing-sdds-intro" aria-labelledby="landing-sdds-title">
+      <img class="bridge-partner-mark" src="assets/sdds-mark-bridge-footer.png" alt="" />
+      <p id="landing-sdds-title">About Smart Data Donation Service (SDDS)</p>
+      <p>SDDS is a University of York research service, funded by the UK government through the Economic and Social Research Council.</p>
+      <a href="#" data-action="noop">Learn more <span aria-hidden="true">↗</span></a>
+      <div class="bridge-partner-logos" aria-label="Research funding partners">
+        <img src="assets/ukri-logo.png" alt="UK Research and Innovation" />
+        <img src="assets/esrc-logo.png" alt="Economic and Social Research Council" />
+        <span class="bridge-research-uk"><img src="assets/sdds-mark.png" alt="" /><strong>Smart Data<br/>Research UK</strong></span>
+      </div>
+    </section>
     ${progress(1)}
   </section>`);
 }
@@ -245,16 +234,6 @@ function info() {
     ${brand()}
     <div class="info-topline"><button class="back" data-action="back" aria-label="Back">←</button><button class="type-control" aria-label="Text size">Aa</button></div>
     <header class="info-intro"><h2>Participant Information</h2><p>Everything about the research study and how to share your data.</p></header>
-    <section class="study-process" aria-labelledby="process-title">
-      <h3 id="process-title">Secure and easy way to donate your data for research</h3>
-      <ol class="process-steps">
-        ${['Consent','Authenticate via Google','Receive a summary'].map((label,index)=>`<li class="process-step"><span class="process-step-number">${index + 1}</span><strong>${label}</strong></li>`).join('')}
-      </ol>
-      <div class="security-explainer">
-        <h3>Learn how <span class="security-title-brand"><img src="assets/sdds-mark.png" alt=""/>Smart Data Donation Service</span> protects your data</h3>
-        <figure class="security-media"><img src="assets/security-video.png" alt="Illustration showing how Smart Data Donation Service protects donated data"/></figure>
-      </div>
-    </section>
     <div class="accordion" aria-label="Participant information topics">
       ${infoSections.map((section,index)=>{
         const open = state.infoIndex === index;
@@ -274,7 +253,7 @@ function info() {
       <button class="secondary download-info" data-action="toast" data-message="Information sheet download started">Download full information sheet</button>
       <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
     </div>
-    <div class="info-footer-actions"><button class="text-button" data-action="back">I’m not ready yet</button><button class="primary" data-action="consent">Next: Consent <span>→</span></button></div>
+    <div class="info-footer-actions info-footer-next-only"><button class="primary" data-action="consent">Next: Consent <span>→</span></button></div>
     ${progress(2)}
   </section>`);
 }
@@ -347,35 +326,13 @@ function consent() {
       <h4>Optional</h4>
       <div class="consent-list optional-list">${optionalChecks.map((x,i)=>`<label class="check-row"><input type="checkbox" value="optional-${i}"/><span>${x}</span></label>`).join('')}</div>
     </section>
-    <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
-    <div class="info-footer-actions"><button class="text-button" data-action="back">I’m not ready yet</button><button id="consent-next" class="primary" data-action="prepare" disabled>Next step <span>→</span></button></div>
-    ${progress(3)}
-  </section>`);
-}
-
-function prepare() {
-  return chrome(`<section class="page donate-page">
-    ${brand()}
-    <div class="info-topline"><button class="back" data-action="back" aria-label="Back">←</button><button class="type-control" aria-label="Text size">Aa</button></div>
-    <header class="donate-intro">
-      <h2>Donate your<br/>Google Play Data</h2>
-      <p>You will briefly leave this study website and sign in to Google. Google will show exactly what is being copied before you approve it.</p>
-    </header>
-    <div class="donation-benefits">
-      <div class="donation-benefit"><img src="assets/data-safe-icon.svg" alt=""/><strong>Your data stays safe</strong></div>
-      <div class="donation-benefit"><img src="assets/research-icon.svg" alt=""/><strong>Power real research</strong></div>
-    </div>
-    <section class="funder-strip" aria-label="Research partners">
-      <p>Powered by Smart Data Donation Service</p>
-      <div class="funder-logos">
-        <img src="assets/ukri-logo.png" alt="UK Research and Innovation"/>
-        <img src="assets/esrc-logo.png" alt="Economic and Social Research Council"/>
-        <span class="research-uk"><img src="assets/sdds-mark.png" alt=""/><strong>Smart Data<br/>Research UK</strong></span>
-      </div>
+    <section class="consent-donation-action" aria-label="Continue to Google data donation">
+      <p class="donation-explainer">When you click the button below, you’ll be securely connected to Google to donate Google Play data to support research.</p>
+      <div id="consent-error" class="consent-error" role="alert" tabindex="-1" hidden>Please check all required consent boxes before continuing.</div>
+      <button id="consent-next" class="primary consent-google-donate" data-action="consent-submit"><span class="consent-google-label"><img src="assets/google-g.png" alt=""/>Donate Data via Google</span><span aria-hidden="true">→</span></button>
     </section>
-    <p class="donation-explainer">When you click the button below, you’ll be securely connected to Google to donate Google Play data to support research.</p>
-    <button class="google-donate" data-action="signin"><img src="assets/google-g.png" alt=""/><span>Donate Data via Google</span></button>
-    ${progress(4)}
+    <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
+    ${progress(3)}
   </section>`);
 }
 
@@ -418,7 +375,7 @@ function sharing() {
       <p>As part of this process, Google will not delete any data from the Google services that you use.</p>
       <p>Learn more about <a href="#" data-action="noop">sharing a copy of your data</a></p>
     </section>
-    <div class="google-actions sharing-actions"><button class="g-link" data-action="prepare">Cancel</button><button class="g-button dark" data-action="sharing-notice">Next</button></div>
+    <div class="google-actions sharing-actions"><button class="g-link" data-action="consent">Cancel</button><button class="g-button dark" data-action="sharing-notice">Next</button></div>
     ${state.sharingNoticeOpen ? `<div class="google-dialog-backdrop" role="presentation">
       <section class="google-dialog" role="dialog" aria-modal="true" aria-labelledby="important-title">
         <h2 id="important-title">Important</h2>
@@ -441,7 +398,7 @@ function permissions() {
     <h3>Select how long Smart Data Donation Service can access your data</h3>
     ${[['once','Only once','Share access to your data only one time. You’ll share a single, static copy of your data.'],['30','30 days','Share access to your data and any changes that you make to your data for 30 days'],['180','180 days','Share access to your data and any changes that you make to your data for 180 days']].map(x=>`<label class="radio-card"><input type="radio" name="duration" value="${x[0]}" ${state.duration===x[0]?'checked':''}/><span><strong>${x[1]}</strong><small>${x[2]}</small></span></label>`).join('')}
     <section class="permission-trust"><h3>Make sure that you trust Smart Data Donation Service</h3><p>Review Smart Data Donation Service’s <a href="#" data-action="noop">privacy policy</a> and <a href="#" data-action="noop">Terms of Service</a> to understand how Smart Data Donation Service will process and protect your data.</p><p>To make changes at any time, go to your <a href="#" data-action="noop">Google Account</a>.</p><p>Learn how Google helps you <a href="#" data-action="noop">share data safely</a>.</p></section>
-    <div class="google-actions"><button class="g-link" data-action="prepare">Cancel</button><button id="permissions-allow" class="g-button" data-action="thanks" ${state.duration ? '' : 'disabled'}>Allow</button></div>
+    <div class="google-actions"><button class="g-link" data-action="consent">Cancel</button><button id="permissions-allow" class="g-button" data-action="thanks" ${state.duration ? '' : 'disabled'}>Allow</button></div>
   </section>`, 'accounts.google.com');
 }
 
@@ -460,7 +417,7 @@ function thanks() {
         <input id="summary-name" class="summary-name" type="text" maxlength="40" placeholder="Your name" value="${escapeHtml(state.summaryName)}" autocomplete="name"/>
       </div>
       <button id="create-summary" class="primary create-summary" data-action="summary" ${state.summaryName.trim() ? '' : 'disabled'}>Create Summary</button>
-      <button class="text-button invite-friends" data-action="toast" data-message="Invite link copied">Invite friends</button>
+      <button class="text-button invite-friends" data-action="toast" data-message="Invite link copied">Invite friends to donate data</button>
     </section>
     ${progress(5)}
   </section>`);
@@ -506,12 +463,12 @@ function summary() {
       </div>
       <div class="story-dots" aria-label="Choose a story">${stories.map((_, index) => `<button class="story-dot ${index === state.summarySlide ? 'is-active' : ''}" data-action="carousel-slide" data-index="${index}" aria-label="Show story ${index + 1}" aria-current="${index === state.summarySlide ? 'true' : 'false'}"></button>`).join('')}</div>
     </section>
-    <div class="summary-actions"><button class="secondary story-download" data-action="download-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Download</button><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share</button></div>
+    <div class="summary-actions"><button class="secondary story-download" data-action="download-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Download</button><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share results</button></div>
     <p class="share-note">On mobile, choose Instagram Stories from your device’s share sheet.</p>
   </section>`);
 }
 
-const views = { instagram, bridge, landing, info, consent, prepare, signin, sharing, permissions, thanks, summary };
+const views = { instagram, bridge, landing, info, consent, signin, sharing, permissions, thanks, summary };
 
 function render() {
   app.innerHTML = views[state.screen]();
@@ -571,6 +528,21 @@ document.addEventListener('click', (event) => {
     panel.hidden = open;
     return;
   }
+  if (action === 'consent-submit') {
+    const required = [...document.querySelectorAll('.consent-check')];
+    const firstUnchecked = required.find(input => !input.checked);
+    const error = document.querySelector('#consent-error');
+    document.querySelector('.declaration')?.classList.toggle('has-error', Boolean(firstUnchecked));
+    if (firstUnchecked) {
+      error.hidden = false;
+      error.focus({ preventScroll: true });
+      firstUnchecked.closest('.check-row')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    error.hidden = true;
+    go('signin');
+    return;
+  }
   if (action === 'toast') return showToast(target.dataset.message || (target.textContent.trim() === 'Share' ? 'Share sheet opened' : target.textContent.trim() === 'Download' ? 'Summary downloaded' : 'Invite link copied'));
   if (action === 'sample-summary') {
     state.summarySlide = 0;
@@ -622,7 +594,11 @@ document.addEventListener('click', (event) => {
 document.addEventListener('change', (event) => {
   if (event.target.matches('.consent-check')) {
     const all = [...document.querySelectorAll('.consent-check')];
-    document.querySelector('#consent-next').disabled = !all.every(x => x.checked);
+    if (all.every(x => x.checked)) {
+      const error = document.querySelector('#consent-error');
+      if (error) error.hidden = true;
+      document.querySelector('.declaration')?.classList.remove('has-error');
+    }
   }
   if (event.target.matches('input[name="duration"]')) {
     state.duration = event.target.value;
