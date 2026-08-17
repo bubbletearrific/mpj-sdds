@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="276" viewBox="0 0 720 276" role="img" aria-labelledby="title desc">
   <title id="title">How gaming data supports research</title>
   <desc id="desc">You share your gaming data, researchers analyse patterns at scale, and we learn more about digital life.</desc>
-  <rect width="720" height="276" rx="28" fill="#f8f7ff"/>
+  <rect width="720" height="276" rx="28" fill="none"/>
   <g fill="#fff" stroke="#dddbea" stroke-width="3"><circle cx="112" cy="88" r="72"/><circle cx="360" cy="88" r="72"/><circle cx="608" cy="88" r="72"/></g>
   <g fill="#8581a3"><circle cx="213" cy="88" r="4"/><circle cx="229" cy="88" r="4"/><circle cx="245" cy="88" r="4"/><circle cx="261" cy="88" r="4"/><circle cx="461" cy="88" r="4"/><circle cx="477" cy="88" r="4"/><circle cx="493" cy="88" r="4"/><circle cx="509" cy="88" r="4"/></g>
   <g transform="translate(78 37)"><rect width="68" height="104" rx="10" fill="#211b68"/><rect x="7" y="9" width="54" height="80" rx="3" fill="#fff"/><circle cx="34" cy="96" r="4" fill="#fff"/><path d="M19 29L48 49 19 69Z" fill="#34a853"/><path d="M19 29L37 43 28 51Z" fill="#4285f4"/><path d="M28 51L37 57 19 69Z" fill="#ea4335"/><path d="M37 43L48 49 37 57 28 51Z" fill="#fbbc04"/></g>

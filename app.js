@@ -81,8 +81,9 @@ function brand(compact = false) {
   </div>`;
 }
 
-function progress(step) {
-  return `<div class="progress" aria-label="Step ${step} of 5">${[1,2,3,4,5].map(i => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>`;
+function progress(step, action = '', label = '', google = false) {
+  const cta = action ? `<button ${action === 'consent-submit' ? 'id="consent-next"' : ''} class="primary journey-footer-cta" data-action="${action}"><span class="journey-footer-label">${google ? '<img src="assets/google-g.png" alt=""/>' : ''}${label}</span><span aria-hidden="true">→</span></button>` : '';
+  return `<footer class="progress ${action ? 'has-cta' : ''}" aria-label="Study progress, step ${step} of 5">${cta}<div class="progress-track">${[1,2,3,4,5].map(i => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div></footer>`;
 }
 
 function go(next, push = true) {
@@ -111,10 +112,10 @@ function chrome(content, host = 'donate.sdds.ac.uk') {
 }
 
 function instagram() {
-  return `<main class="friend-story-screen screen">
-    <article class="friend-story" aria-label="Instagram Story shared by kensmith">
-      <img src="assets/friend-instagram-story-v5.png" alt="Kensmith’s Instagram Story showing their top games: Clash Royale, Monument Valley, Candy Crush, and Pokémon GO" />
-      <button type="button" class="friend-story-link" data-action="bridge" aria-label="Get your gaming summary here"></button>
+  return `<main class="recruitment-ad-screen screen">
+    <article class="recruitment-ad" aria-label="Instagram recruitment advertisement by the University of York and Smart Data Donation Service">
+      <img src="assets/instagram-recruitment-ad-v8.png" alt="University of York and Smart Data Donation Service Instagram advertisement inviting mobile gamers to donate Google Play data for university research" />
+      <button type="button" class="recruitment-ad-link" data-action="bridge" aria-label="Learn more about the gaming research study"></button>
     </article>
   </main>`;
 }
@@ -125,23 +126,28 @@ function bridge() {
       <img src="assets/york-site-header.png" alt="University of York" />
     </header>
     <div class="bridge-content">
-      <h1 id="bridge-title">Help gaming research <span>&amp; discover your Google Play story</span></h1>
+      <h1 id="bridge-title">Help research <span>&amp; discover your Google Play story</span></h1>
       <div class="bridge-intro">
-        <p>Join a University of York research study by securely donating a copy of your Google Play data. The process will take about 5 min.</p>
-        <p>In return, you’ll receive a personalised gaming summary. ✨</p>
+        <p>Join a University of York research study by securely donating a copy of your Google Play data <img class="bridge-play-icon" src="assets/google-play.svg" alt="Google Play"/>. It takes about <strong>5 min.</strong></p>
+        <p>In return, you’ll receive a <strong>personalised summary of your gaming activity.</strong> ✨</p>
       </div>
-      <div class="bridge-summary-strip" role="group" aria-label="Sample gaming summary stories">
-        <img src="assets/story-1-v4-see.png" alt="Sample play story overview" />
-        <img src="assets/story-2-v4-icons.png" alt="Sample top games story" />
-        <img src="assets/story-4-v4-see.png" alt="Sample play patterns story" />
-        <img src="assets/story-7-v4-see.png" alt="Sample Explorer play style story" />
-      </div>
-      <button type="button" class="bridge-preview-button" data-action="sample-summary">Preview sample summary</button>
+      <figure class="bridge-impact-flow"><img src="assets/research-impact-flow.svg?v=2" alt="You share your gaming data, researchers analyse patterns at scale, and we learn more about digital life"/></figure>
       <button class="bridge-primary" data-action="landing">
         <span>Continue to data donation</span>
         <img class="bridge-arrow" src="assets/arrow-right-white.svg" alt="" />
       </button>
       <p class="bridge-redirect"><img src="assets/sdds-mark-bridge.png" alt="" /><span>You will be redirected to Smart Data Donation Service (SDDS) to complete the process</span></p>
+      <section class="bridge-summary-preview" aria-labelledby="bridge-summary-title">
+        <h2 id="bridge-summary-title">Unlock your personalised gaming summary</h2>
+        <div class="bridge-summary-strip" role="group" aria-label="Sample gaming summary stories">
+          <img src="assets/story-1-v4-see.png" alt="Sample play story overview" />
+          <img src="assets/story-2-v4-icons.png" alt="Sample top games story" />
+          <img src="assets/story-3-v4-see.png" alt="Sample changing play habits story" />
+          <img src="assets/story-4-v4-see.png" alt="Sample play patterns story" />
+        </div>
+        <p>Discover your play time, most played games, achievements, changing habits, and more!</p>
+        <button type="button" class="bridge-preview-button" data-action="sample-summary">Preview all sample summary</button>
+      </section>
       <aside class="bridge-trust" aria-label="University of York research reassurance">
         <img src="assets/data-safe-icon.svg" alt="" />
         <p><strong>This is a University of York research study. Data donation is securely managed through SDDS, a research service run by the University of York.</strong> Your donated Google Play Games data will be used for research only. It will not be sold, used for advertising, or provided to commercial organisations for their own purposes.</p>
@@ -166,15 +172,19 @@ function bridge() {
 }
 
 function landing() {
-  return chrome(`<section class="page">
+  return chrome(`<section class="page landing-page has-fixed-cta">
     ${brand()}
-    <h1>Help researchers understand the role gaming plays in everyday life.</h1>
+    <h1 class="landing-hero-title">Donate your gaming<br/>data for research</h1>
+    <figure class="landing-gamers" aria-label="Four people playing games on their phones">
+      <img src="assets/landing-gamer-1.png" alt="Woman playing a game on her phone"/>
+      <img src="assets/landing-gamer-2.png" alt="Young man playing a game on his phone"/>
+      <img src="assets/landing-gamer-3.png" alt="Woman playing a game on her phone"/>
+      <img src="assets/landing-gamer-4.png" alt="Man playing a game on his phone"/>
+    </figure>
     <div class="landing-description">
       <p>Mobile games are played by many different kinds of people, but research does not always capture this diversity.</p>
       <p>By donating your gaming data, you could help researchers build a more accurate picture of everyday mobile play and <strong>create a comprehensive research dataset that explores how digital activities relate to people’s wellbeing, personality, attitudes, and health.</strong></p>
     </div>
-    <figure class="landing-impact-graphic"><img src="assets/research-impact-flow.svg" alt="You share your gaming data, researchers analyse patterns at scale, and we learn more about digital life"/></figure>
-    <div class="cta-wrap"><button class="primary" data-action="info"><span>Get started</span><span>→</span></button></div>
     <p class="personal-note">and get <span class="marker-highlight">your personal gaming summary</span>!</p>
     <aside class="bridge-trust landing-trust" aria-label="University of York research reassurance">
       <img src="assets/data-safe-icon.svg" alt="" />
@@ -187,9 +197,12 @@ function landing() {
       <section class="card landing-process-card" aria-labelledby="landing-process-heading">
         <h2 id="landing-process-heading">How does data donation work?</h2>
         <div class="study-process">
-          <h3>Secure and easy way to donate your data for research</h3>
-          <ol class="process-steps">
-            ${['Consent','Authenticate via Google','Receive a summary'].map((label,index)=>`<li class="process-step"><span class="process-step-number">${index + 1}</span><strong>${label}${index === 1 ? '<img class="process-google-icon" src="assets/google-g.png" alt="Google" />' : ''}</strong></li>`).join('')}
+          <ol class="process-steps landing-process-steps">
+            <li class="process-step"><span class="process-step-number">1</span><span>Review &amp; Consent</span></li>
+            <li class="process-step"><span class="process-step-number">2</span><span>Sign in with Google <img class="process-google-icon" src="assets/google-g.png" alt="Google" /></span></li>
+            <li class="process-step"><span class="process-step-number">3</span><span>Choose <strong>how long</strong> to share your data</span></li>
+            <li class="process-step"><span class="process-step-number">4</span><span><strong>Allow access</strong> to your gaming data</span></li>
+            <li class="process-step"><span class="process-step-number">5</span><span>See your gaming summary!</span></li>
           </ol>
           <div class="security-explainer">
             <h3>Learn how <span class="security-title-brand"><img src="assets/sdds-mark.png" alt=""/>Smart Data Donation Service</span> protects your data</h3>
@@ -225,12 +238,12 @@ function landing() {
         <span class="bridge-research-uk"><img src="assets/sdds-mark.png" alt="" /><strong>Smart Data<br/>Research UK</strong></span>
       </div>
     </section>
-    ${progress(1)}
+    ${progress(1, 'info', 'Get started')}
   </section>`);
 }
 
 function info() {
-  return chrome(`<section class="page info-page">
+  return chrome(`<section class="page info-page has-fixed-cta">
     ${brand()}
     <div class="info-topline"><button class="back" data-action="back" aria-label="Back">←</button><button class="type-control" aria-label="Text size">Aa</button></div>
     <header class="info-intro"><h2>Participant Information</h2><p>Everything about the research study and how to share your data.</p></header>
@@ -253,8 +266,7 @@ function info() {
       <button class="secondary download-info" data-action="toast" data-message="Information sheet download started">Download full information sheet</button>
       <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
     </div>
-    <div class="info-footer-actions info-footer-next-only"><button class="primary" data-action="consent">Next: Consent <span>→</span></button></div>
-    ${progress(2)}
+    ${progress(2, 'consent', 'Next: Consent')}
   </section>`);
 }
 
@@ -270,7 +282,7 @@ function consent() {
     'I want to be notified about <strong>research updates</strong>',
     'I am open to be contacted about <strong>future studies</strong>',
   ];
-  return chrome(`<section class="page consent-page">
+  return chrome(`<section class="page consent-page has-fixed-cta">
     ${brand()}
     <div class="info-topline"><button class="back" data-action="back" aria-label="Back">←</button><button class="type-control" aria-label="Text size">Aa</button></div>
     <header class="consent-intro"><h2>Your Consent</h2><p>Please confirm each statement before continuing. Nothing is donated until you finish the Google authorization step.</p></header>
@@ -329,10 +341,9 @@ function consent() {
     <section class="consent-donation-action" aria-label="Continue to Google data donation">
       <p class="donation-explainer">When you click the button below, you’ll be securely connected to Google to donate Google Play data to support research.</p>
       <div id="consent-error" class="consent-error" role="alert" tabindex="-1" hidden>Please check all required consent boxes before continuing.</div>
-      <button id="consent-next" class="primary consent-google-donate" data-action="consent-submit"><span class="consent-google-label"><img src="assets/google-g.png" alt=""/>Donate Data via Google</span><span aria-hidden="true">→</span></button>
     </section>
     <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
-    ${progress(3)}
+    ${progress(3, 'consent-submit', 'Donate Data via Google', true)}
   </section>`);
 }
 
@@ -410,11 +421,11 @@ function thanks() {
       <p>A receipt of your data donation will be sent to you via Gmail.</p>
     </header>
     <section class="summary-setup" aria-labelledby="summary-setup-title">
-      <h2 id="summary-setup-title">Now... take a peek at your gaming summary</h2>
+      <h2 id="summary-setup-title">Now.. take a peek at your gaming summary</h2>
       <div class="name-card">
-        <strong>Playing from 2019-2026</strong>
-        <label for="summary-name">This is a gaming summary for</label>
+        <label for="summary-name">Unlock gaming summary for</label>
         <input id="summary-name" class="summary-name" type="text" maxlength="40" placeholder="Your name" value="${escapeHtml(state.summaryName)}" autocomplete="name"/>
+        <strong>Playing from 2019-2026</strong>
       </div>
       <button id="create-summary" class="primary create-summary" data-action="summary" ${state.summaryName.trim() ? '' : 'disabled'}>Create Summary</button>
       <button class="text-button invite-friends" data-action="toast" data-message="Invite link copied">Invite friends to donate data</button>
@@ -434,7 +445,7 @@ function summary() {
     { src: 'assets/story-3-v4-see.png', title: 'Yearly play comparison' },
     { src: 'assets/story-4-v4-see.png', title: 'Play patterns' },
     { src: 'assets/story-5-v4-see.png', title: 'Play milestones' },
-    { src: 'assets/story-6-v4-see.png', title: 'Highest recorded spend' },
+    { src: 'assets/story-6-v8-icon-final.png', title: 'Highest recorded spend' },
     { src: 'assets/story-7-v4-see.png', title: 'Explorer play style' },
   ];
   const activeStory = stories[state.summarySlide];
