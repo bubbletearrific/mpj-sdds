@@ -347,6 +347,15 @@ button { cursor: pointer; }
 .consent-example-panel { padding: 4px 20px 22px; line-height: 1.55; border-top: 1px solid #e2e0da; }
 .consent-example-panel[hidden] { display: none; }
 .consent-example-panel p { margin: 18px 0; }
+.example-table-wrap { width: 100%; margin: 28px 0; overflow-x: auto; }
+.example-data-table { width: 100%; border-collapse: collapse; color: #17171a; font-size: 12px; line-height: 1.2; text-align: center; }
+.example-data-table th, .example-data-table td { padding: 4px 6px; border: 1px solid #d9d9d9; }
+.example-data-table th { background: #efefef; font-weight: 700; white-space: nowrap; }
+.example-data-table td:first-child { min-width: 145px; }
+@media (max-width: 480px) {
+  .consent-example-panel { padding-inline: 14px; }
+  .example-data-table { min-width: 480px; font-size: 11px; }
+}
 .transaction-code { margin: 18px 0; padding: 18px; background: #17171d; color: #f7f7fa; border-radius: 8px; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
 .declaration { margin-top: 10px; }
 .declaration h3 { color: var(--ink); margin-bottom: 6px; }

@@ -304,30 +304,39 @@ function consent() {
       <div class="consent-example">
         <button class="example-toggle" data-action="consent-example-toggle" aria-expanded="false" aria-controls="transaction-example"><span>View examples</span><span class="chevron" aria-hidden="true">⌄</span></button>
         <div class="consent-example-panel" id="transaction-example" hidden>
-          <p>For example, this is a history of someone’s engagement with Google Play, including a list of transactions completed through Google Play:</p>
-          <pre class="transaction-code">{
-  "Transaction ID": "GPA.1376573261796795",
-  "Description": "Artemis Spaceship Bridge Sim",
-  "Status": "Complete",
-  "Amount": "£1.93",
-  "Date": "2013-10-04T17:08:00"
-},
-{
-  "Transaction ID": "GPA.1366107515850887",
-  "Description": "Broken Sword : Director's Cut",
-  "Status": "Complete",
-  "Amount": "£2.99",
-  "Date": "2013-09-18T15:20:00"
-},
-{
-  "Transaction ID": "GPA.1304616444949957",
-  "Description": "Peppa Pig - Happy Mrs Chicken",
-  "Status": "Complete",
-  "Amount": "£1.99",
-  "Date": "2013-09-18T15:00:00"
-}</pre>
-          <p>Each transaction includes its transaction ID, description, status, amount, and date. Google Play data also records information such as games installed on an Android device.</p>
-          <p>Gaming researchers study questions such as how in-game loot boxes affect players. Transaction data can help researchers understand patterns of spending and their impact on society.</p>
+          <p>For example, Google Play data can include information about your gaming activity, such as purchases, play activity, and achievements. Here is an example of what this information might look like:</p>
+          <div class="example-table-wrap">
+            <table class="example-data-table">
+              <thead><tr><th>Game or purchase</th><th>Amount</th><th>Purchase date</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Artemis Spaceship Bridge Sim</td><td>£1.93</td><td>4 Oct 2013, 17:08</td><td>Complete</td></tr>
+                <tr><td>Broken Sword: Director’s Cut</td><td>£2.99</td><td>18 Sep 2013, 15:20</td><td>Complete</td></tr>
+                <tr><td>Peppa Pig: Happy Mrs Chicken</td><td>£1.99</td><td>18 Sep 2013, 15:00</td><td>Complete</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="example-table-wrap">
+            <table class="example-data-table">
+              <thead><tr><th>Game</th><th>Play time</th><th>Last played</th></tr></thead>
+              <tbody>
+                <tr><td>Candy Crush Saga</td><td>12 hrs 34 mins</td><td>14 Aug 2026</td></tr>
+                <tr><td>Pokémon GO</td><td>8 hrs 12 mins</td><td>12 Aug 2026</td></tr>
+                <tr><td>Clash Royale</td><td>3 hrs 46 mins</td><td>9 Aug 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="example-table-wrap">
+            <table class="example-data-table">
+              <thead><tr><th>Game</th><th>Achievement</th><th>Unlocked</th></tr></thead>
+              <tbody>
+                <tr><td>Pokémon GO</td><td>Catch 100 Pokémon</td><td>8 Aug 2026</td></tr>
+                <tr><td>Clash Royale</td><td>Win 50 battles</td><td>2 Aug 2026</td></tr>
+                <tr><td>Angry Birds 2</td><td>Complete 100 levels</td><td>27 Jul 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>These records can show researchers different aspects of gaming behaviour, such as what games people play, how they engage with them, and their spending activity.</p>
+          <p>Researchers can use this information to explore patterns in gaming and how they may relate to people’s everyday lives and wellbeing.</p>
         </div>
       </div>
     </section>
