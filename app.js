@@ -1,5 +1,8 @@
 const app = document.querySelector('#app');
 const SUMMARY_STORY_COUNT = 7;
+const SUMMARY_STORY_WIDTH = 824;
+const SUMMARY_STORY_SOURCE_HEIGHT = 1834;
+const SUMMARY_STORY_VISIBLE_HEIGHT = 1580;
 
 const state = {
   screen: location.hash.slice(1) || 'instagram',
@@ -11,7 +14,6 @@ const state = {
   landingImpactOpen: false,
   landingUpdatesOpen: false,
   landingEthicsOpen: false,
-  summaryName: '',
   summarySlide: 0,
 };
 
@@ -299,8 +301,8 @@ function consent() {
           <li><strong>Google Play Store:</strong> Timestamped purchases, including in-game purchases.</li>
         </ul>
       </div>
-      <p>Please donate data only from your own account.</p>
-      <p>Company-held data can contain identifying details. We use secure cloud storage and data minimisation to remove sensitive or identifying information wherever possible.</p>
+      <p>Please note that if you decide to donate data from one or both platforms, this must be data from your own account and not anyone else's.</p>
+      <p>It is important to note that the data held by a company sometimes contains identifying details about you - for example, it may contain your name. In addition to using secure cloud storage, <strong>we employ processes to remove sensitive and identifying details whenever possible to add an additional layer of security to it.</strong> One example of how we do this is filtering your data to remove these (a process called 'data minimisation').</p>
       <div class="consent-example">
         <button class="example-toggle" data-action="consent-example-toggle" aria-expanded="false" aria-controls="transaction-example"><span>View examples</span><span class="chevron" aria-hidden="true">⌄</span></button>
         <div class="consent-example-panel" id="transaction-example" hidden>
@@ -426,25 +428,22 @@ function thanks() {
   return chrome(`<section class="page thanks-page">
     ${brand()}
     <header class="thanks-intro">
-      <h1>Thank you!<br/>We received your<br/>donated data.</h1>
-      <p>A receipt of your data donation will be sent to you via Gmail.</p>
+      <h1>Thank you for donating your data.</h1>
+      <p>A receipt of your data donation will be sent to your email.</p>
     </header>
     <section class="summary-setup" aria-labelledby="summary-setup-title">
-      <h2 id="summary-setup-title">Now.. take a peek at your gaming summary</h2>
-      <div class="name-card">
-        <label for="summary-name">Unlock gaming summary for</label>
-        <input id="summary-name" class="summary-name" type="text" maxlength="40" placeholder="Your name" value="${escapeHtml(state.summaryName)}" autocomplete="name"/>
-        <strong>Playing from 2019-2026</strong>
-      </div>
-      <button id="create-summary" class="primary create-summary" data-action="summary" ${state.summaryName.trim() ? '' : 'disabled'}>Create Summary</button>
-      <button class="text-button invite-friends" data-action="toast" data-message="Invite link copied">Invite friends to donate data</button>
+      <h2 id="summary-setup-title">Your gaming story is ready</h2>
+      <p class="summary-reward-copy">See what your donated data reveals about how you play.</p>
+      <ul class="summary-reward-preview" aria-label="Your gaming story may include">
+        <li><span class="reward-preview-icon" aria-hidden="true">◷</span><strong>Play time</strong></li>
+        <li><span class="reward-preview-icon" aria-hidden="true">◇</span><strong>Top games</strong></li>
+        <li><span class="reward-preview-icon" aria-hidden="true">☆</span><strong>Achievements</strong></li>
+      </ul>
+      <button id="create-summary" class="primary create-summary" data-action="summary">View my gaming summary</button>
+      <button class="text-button invite-friends" data-action="toast" data-message="Invite link copied">Invite a friend to participate</button>
     </section>
     ${progress(5)}
   </section>`);
-}
-
-function escapeHtml(value) {
-  return String(value).replace(/[&<>'"]/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]));
 }
 
 function summary() {
@@ -471,8 +470,10 @@ function summary() {
             : index === state.summarySlide + 1
               ? 'is-next'
               : '';
-        return `<figure class="story-slide ${positionClass}" data-slide="${index}" aria-hidden="${index === state.summarySlide ? 'false' : 'true'}">
+        return `<figure class="story-slide story-theme-${index + 1} ${positionClass}" data-slide="${index}" aria-hidden="${index === state.summarySlide ? 'false' : 'true'}">
         <img src="${story.src}" alt="Story ${index + 1} of ${SUMMARY_STORY_COUNT}: ${story.title}" draggable="false"/>
+        <span class="story-top-bars" aria-hidden="true">${Array.from({ length: SUMMARY_STORY_COUNT }, (_, barIndex) => `<i class="${barIndex <= index ? 'is-complete' : ''}"></i>`).join('')}</span>
+        <span class="story-image-count" aria-hidden="true">${index + 1} / ${SUMMARY_STORY_COUNT}</span>
       </figure>`;
       }).join('')}
       </div>
@@ -483,7 +484,7 @@ function summary() {
       </div>
       <div class="story-dots" aria-label="Choose a story">${stories.map((_, index) => `<button class="story-dot ${index === state.summarySlide ? 'is-active' : ''}" data-action="carousel-slide" data-index="${index}" aria-label="Show story ${index + 1}" aria-current="${index === state.summarySlide ? 'true' : 'false'}"></button>`).join('')}</div>
     </section>
-    <div class="summary-actions"><button class="secondary story-download" data-action="download-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Download</button><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share results</button></div>
+    <div class="summary-actions"><button class="secondary story-download" data-action="download-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Export results</button><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share results</button></div>
     <p class="share-note">On mobile, choose Instagram Stories from your device’s share sheet.</p>
   </section>`);
 }
@@ -627,14 +628,6 @@ document.addEventListener('change', (event) => {
   }
 });
 
-document.addEventListener('input', (event) => {
-  if (event.target.matches('#summary-name')) {
-    state.summaryName = event.target.value;
-    const createButton = document.querySelector('#create-summary');
-    if (createButton) createButton.disabled = !state.summaryName.trim();
-  }
-});
-
 let storySwipeStartX = null;
 
 document.addEventListener('pointerdown', (event) => {
@@ -659,22 +652,60 @@ function loadStoryAsset(src) {
   });
 }
 
-async function createStoryShareBlob(src) {
+function paintStoryCount(context, number) {
+  const themes = [
+    { background: '#211767', foreground: '#ffffff' },
+    { background: '#fff9e8', foreground: '#19145f' },
+    { background: '#eef1ff', foreground: '#19145f' },
+    { background: '#0e5a50', foreground: '#ffffff' },
+    { background: '#fff9e8', foreground: '#19145f' },
+    { background: '#211767', foreground: '#ffffff' },
+    { background: '#a99ae8', foreground: '#ffffff' },
+  ];
+  const theme = themes[number - 1] || themes[0];
+  const width = 824;
+  const left = 40;
+  const right = 40;
+  const gap = 12;
+  const barWidth = (width - left - right - gap * (SUMMARY_STORY_COUNT - 1)) / SUMMARY_STORY_COUNT;
+
+  context.fillStyle = theme.background;
+  context.fillRect(0, 20, width, 50);
+  context.fillRect(700, 72, 84, 48);
+
+  for (let index = 0; index < SUMMARY_STORY_COUNT; index += 1) {
+    context.globalAlpha = index < number ? 1 : 0.28;
+    context.fillStyle = theme.foreground;
+    context.beginPath();
+    context.roundRect(left + index * (barWidth + gap), 35, barWidth, 7, 4);
+    context.fill();
+  }
+
+  context.globalAlpha = 1;
+  context.fillStyle = theme.foreground;
+  context.font = '700 20px "DM Sans", Arial, sans-serif';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText(`${number} / ${SUMMARY_STORY_COUNT}`, 742, 96);
+}
+
+async function createStoryShareBlob(src, number) {
   const story = await loadStoryAsset(src);
   const canvas = document.createElement('canvas');
-  canvas.width = 824;
-  canvas.height = 1834;
+  canvas.width = SUMMARY_STORY_WIDTH;
+  canvas.height = SUMMARY_STORY_VISIBLE_HEIGHT;
   const context = canvas.getContext('2d');
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.drawImage(story, 0, 0, canvas.width, canvas.height);
+  context.drawImage(story, 0, 0, SUMMARY_STORY_WIDTH, SUMMARY_STORY_SOURCE_HEIGHT);
+  paintStoryCount(context, number);
 
   return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Unable to create story image')), 'image/png'));
 }
 
 async function downloadStory(src, number) {
   try {
-    const blob = await createStoryShareBlob(src);
+    const blob = await createStoryShareBlob(src, number);
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -688,7 +719,7 @@ async function downloadStory(src, number) {
 
 async function shareStory(src, number) {
   try {
-    const blob = await createStoryShareBlob(src);
+    const blob = await createStoryShareBlob(src, number);
     const file = new File([blob], `sdds-story-${number}.png`, { type: 'image/png' });
     if (navigator.share && navigator.canShare?.({ files: [file] })) {
       await navigator.share({ files: [file], title: `My gaming story ${number} of ${SUMMARY_STORY_COUNT}` });
