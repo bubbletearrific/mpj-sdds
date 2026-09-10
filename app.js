@@ -347,13 +347,13 @@ function consent() {
     <section class="declaration">
       <h3>Declaration of Consent</h3>
       <p>Please tick the boxes below to show your agreement.</p>
+      <div id="consent-error" class="consent-error" role="alert" tabindex="-1" hidden>Please check all required consent boxes before continuing.</div>
       <div class="consent-list">${requiredChecks.map((x,i)=>`<label class="check-row"><input type="checkbox" class="consent-check" value="${i}"/><span>${x}</span></label>`).join('')}</div>
       <h4>Optional</h4>
       <div class="consent-list optional-list">${optionalChecks.map((x,i)=>`<label class="check-row"><input type="checkbox" value="optional-${i}"/><span>${x}</span></label>`).join('')}</div>
     </section>
     <section class="consent-donation-action" aria-label="Continue to Google data donation">
       <p class="donation-explainer">When you click the button below, you’ll be securely connected to Google to donate Google Play data to support research.</p>
-      <div id="consent-error" class="consent-error" role="alert" tabindex="-1" hidden>Please check all required consent boxes before continuing.</div>
     </section>
     <div class="powered">Powered by Smart Data Donation Service <img src="assets/sdds-mark.png" alt=""/></div>
     ${progress(3, 'consent-submit', 'Donate Data via Google', true)}
@@ -434,7 +434,7 @@ function thanks() {
       <p>A receipt of your data donation will be sent to your email.</p>
     </header>
     <section class="summary-setup" aria-labelledby="summary-setup-title">
-      <h2 id="summary-setup-title">Your gaming story is ready</h2>
+      <h2 id="summary-setup-title">Your gaming story is ready 🎉</h2>
       <p class="summary-reward-copy">See what your donated data reveals about how you play.</p>
       <ul class="summary-reward-preview" aria-label="Your gaming story may include">
         <li><span class="reward-preview-icon" aria-hidden="true">◷</span><strong>Play time</strong></li>
@@ -487,7 +487,6 @@ function summary() {
       <div class="story-dots" aria-label="Choose a story">${stories.map((_, index) => `<button class="story-dot ${index === state.summarySlide ? 'is-active' : ''}" data-action="carousel-slide" data-index="${index}" aria-label="Show story ${index + 1}" aria-current="${index === state.summarySlide ? 'true' : 'false'}"></button>`).join('')}</div>
     </section>
     <div class="summary-actions"><button class="secondary story-download" data-action="download-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Export results</button><button class="primary" data-action="share-story" data-story-src="${activeStory.src}" data-story-number="${state.summarySlide + 1}">Share results</button></div>
-    <p class="share-note">On mobile, choose Instagram Stories from your device’s share sheet.</p>
   </section>`);
 }
 

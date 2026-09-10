@@ -304,8 +304,8 @@ button { cursor: pointer; }
 .accordion-panel p { margin: 0 0 16px; }
 .accordion-panel a { color: var(--ink); }
 .accordion-panel li { margin: 7px 0; }
-.accordion-actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
-.info-next { width: 100%; padding: 14px 10px; border-radius: 12px; font-weight: 700; }
+.accordion-actions { display: flex; justify-content: flex-start; margin-top: 20px; }
+.info-next { width: auto; min-height: 44px; padding: 14px 24px; border-radius: 12px; font-weight: 700; }
 .info-next { border: 1px solid #373737; background: #373737; color: #fff; }
 .info-end { scroll-margin-top: 96px; margin-top: 28px; line-height: 1.5; }
 .researcher-card { display: grid; gap: 8px; padding: 18px; background: #f4f7fb; border: 1px solid #414141; font-size: 14px; }
