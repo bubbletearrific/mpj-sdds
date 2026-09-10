@@ -4,6 +4,8 @@ const SUMMARY_STORY_WIDTH = 824;
 const SUMMARY_STORY_SOURCE_HEIGHT = 1834;
 const SUMMARY_STORY_VISIBLE_HEIGHT = 1580;
 
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 const state = {
   screen: location.hash.slice(1) || 'instagram',
   history: [],
@@ -93,8 +95,8 @@ function go(next, push = true) {
   if (push && state.screen !== next) state.history.push(state.screen);
   state.screen = next;
   history.replaceState(null, '', `#${next}`);
-  window.scrollTo({ top: 0, behavior: 'instant' });
   render();
+  resetPageScroll();
 }
 
 function back() {
@@ -257,7 +259,7 @@ function info() {
             <span>${index + 1}) ${section.title}</span><span class="chevron" aria-hidden="true">⌄</span>
           </button>
           <div class="accordion-panel" id="info-panel-${index}" ${open ? '' : 'hidden'}>${section.body}
-            <div class="accordion-actions"><button class="secondary" data-action="info-skip">Skip to bottom</button><button class="info-next" data-action="info-next" data-index="${index}">${index === infoSections.length - 1 ? 'Finish reading' : 'Next section'}</button></div>
+            <div class="accordion-actions"><button class="info-next" data-action="info-next" data-index="${index}">${index === infoSections.length - 1 ? 'Finish reading' : 'Next section'}</button></div>
           </div>
         </section>`;
       }).join('')}
@@ -496,6 +498,18 @@ function render() {
   document.title = state.screen === 'instagram' ? 'Instagram | SDDS Study' : state.screen === 'bridge' ? 'University of York | Gaming Research' : 'SDDS Data Donation';
 }
 
+function resetPageScroll() {
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    app.scrollTop = 0;
+  };
+
+  scrollToTop();
+  requestAnimationFrame(scrollToTop);
+}
+
 document.addEventListener('click', (event) => {
   const target = event.target.closest('[data-action]');
   if (!target || target.disabled) return;
@@ -535,10 +549,6 @@ document.addEventListener('click', (event) => {
       render();
       requestAnimationFrame(() => document.querySelector(`#info-item-${nextIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     }
-    return;
-  }
-  if (action === 'info-skip') {
-    document.querySelector('#info-end')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
   if (action === 'consent-example-toggle') {
@@ -742,7 +752,12 @@ function showToast(message) {
 
 window.addEventListener('hashchange', () => {
   const next = location.hash.slice(1);
-  if (routes.has(next) && next !== state.screen) { state.screen = next; render(); }
+  if (routes.has(next) && next !== state.screen) {
+    state.screen = next;
+    render();
+    resetPageScroll();
+  }
 });
 
 render();
+resetPageScroll();
